@@ -1,25 +1,35 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  Image,
-  Dimensions,
-  StatusBar,
-  View,
-  TouchableOpacity,
-  ScrollView
+    ActivityIndicator,
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    StatusBar,
+    NetInfo,
+    Animated,
+    ImageBackground,
+    TouchableWithoutFeedback,
+    ScrollView,
+    Dimensions,
+    FlatList,
+    Alert,
+    TouchableOpacity,
+    RefreshControl
 } from "react-native";
-//import LoaderModal from './Modals/LoaderModal';
 import HomeNavBar from '../../components/Includes/HomeNavBar'
-//var SharedPreferences = require("react-native-shared-preferences");
+import Loader from "../Includes/Loader";
+import { API_URL } from '../../root.js';
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import { connect } from "react-redux";
+const mapStateToProps = state => ({
   ...state
-});*/
+});
 var today = new Date(); var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-class Dashboard extends Component<Props> {
+class reduxDashboard extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -27,12 +37,115 @@ class Dashboard extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-     regLoader: true
+     regLoader: false,
+     fetch: false,
+     pending: [],
+     completed: [],
+     first_name: ''
     };
+    this.getApiData = this.getApiData.bind(this)
   }
   componentDidMount(){
+ //  this.props.navigation.navigate('CreateAccount')
+    this.setState({ regLoader: true });
+    this.getApiData();
+  }
+  getApiData(){
+    console.log(this.props.token)
+    var config = {
+        headers: {'Authorization': "Bearer " + this.props.token},
+        timeout: 20000
+    };
+    axios
+    .get(
+      API_URL+"orders/" + this.props.id, config
+    )
+    .then(response => {
+      console.log(response);
+      if (response.data && response.data.length > 0) {
+        console.log("response.data");
+          console.log("here" + response.data);     
+         if(response.data.message == 'Token is not valid'){
+            this.props.navigation.navigate('SignIn')
+          }
+          var len = response.data.length;
+          this.setState({pending: [], completed: []})
+          for (let i = 0; i < len; i++) {
+            let row = response.data[i];
+            if (row.stage == "In Process") {
+              this.setState(prevState => ({
+                pending: [...prevState.pending, row]
+              }));
+            } else {
+              this.setState(prevState => ({
+                completed: [...prevState.completed, row]
+              }));
+            }
+          }
+    }
+      this.setState({ regLoader: false, fetch: false });
+      axios.get(API_URL+"users/" + this.props.id, config).then(response => {
+        console.log(response);
+        if(response.data.message == 'Token is not valid'){
+          this.props.navigation.navigate('SignIn')
+        }
+        this.setState({first_name: response.data.first_name})
+      }).catch(error => {
+    //    this.setState({regLoader: false})
+      if(error.code == 'ECONNABORTED'){
+        Toast.show('Connection TImeout')
+    }else{
+      Toast.show(error.message)
+      if(error.message == 'Token is not valid'){
+        this.props.navigation.navigate('SignIn')
+      }
+    }
+      console.log(error);
+    });
+    })
+    .catch(error => {
+        this.setState({regLoader: false})
+      if(error.code == 'ECONNABORTED'){
+        Toast.show('Connection TImeout')
+    }else{
+        Toast.show(error.message)
+        if(error.message == 'Token is not valid'){
+          this.props.navigation.navigate('SignIn')
+        }
+    }
+      console.log(error);
+    });
+  }
+  componentDidUpdate(){
+  //  this.getApiData()
   }
   render() {
+      let show = '';
+      if(this.state.pending.length > 0 || this.state.completed.length > 0){
+        show = <View style={styles.insideGreenBoxTwo}>
+        <View style={styles.descriptionView}>
+          <Text style={styles.descriptionText}>Orders In Process</Text>
+          <View style={styles.numberOrdersView}>
+              <Text style={styles.numberOrdersText}>{this.state.pending.length}</Text>
+          </View>
+        </View>
+        <View style={styles.descriptionView}>
+          <Text style={styles.descriptionText}>Completed Orders</Text>
+          <View style={styles.numberOrdersView}>
+              <Text style={styles.numberOrdersText}>{this.state.completed.length}</Text>
+          </View>
+        </View>
+    </View>
+      }else{
+       show = <View style={styles.insideGreenBox}>
+        <Text style={styles.noOrders}>You have no pending orders!</Text>
+        <Image 
+        source={require('../../assets/images/dashboardWash.png')}
+        resizeMode={'contain'}
+        style={{width: 270, height: 243}}
+    />
+    </View>
+      }
     return (
         <View style={styles.container}>
         <View style={styles.headerView}>
@@ -46,7 +159,7 @@ class Dashboard extends Component<Props> {
                    {date}
                 </Text>
                 <Text style={styles.hiText}>
-                   Hi Alan
+                   Hi {this.state.first_name?this.state.first_name:null}
                 </Text>
             </View>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('Notifications')}>
@@ -57,15 +170,8 @@ class Dashboard extends Component<Props> {
             /></TouchableOpacity>
         </View>
         <ScrollView>
-            <View style={styles.insideGreenBox}>
-                <Text style={styles.noOrders}>You have no pending orders!</Text>
-                <Image 
-                source={require('../../assets/images/dashboardWash.png')}
-                resizeMode={'contain'}
-                style={{width: 270, height: 243}}
-            />
-            </View>
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Preferences')}>
+            {show}
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Preferences', {order: true})}>
             <View style={styles.placeOrderView}>
                 <Text style={styles.placeText}>Place an order</Text>
                 <Image 
@@ -77,13 +183,17 @@ class Dashboard extends Component<Props> {
             </TouchableOpacity>
         </ScrollView>
         <HomeNavBar navigation={this.props.navigation}/>
+        {this.state.regLoader?<Loader /> :null} 
         </View>
     );
   }
 }
-/*const Splash = connect(
+const dimensions = Dimensions.get("window");
+const Width = dimensions.width;
+const Height = dimensions.height;
+const Dashboard = connect(
   mapStateToProps,
-)(reduxSplash);*/
+)(reduxDashboard);
 export default Dashboard;
 const styles = StyleSheet.create({
     container: {
@@ -115,16 +225,48 @@ const styles = StyleSheet.create({
           fontSize: 26
       },
       insideGreenBox: {
-          width: 290,
-          height: 363,
+          width: Width*(77.867/100),
+          height:Height*(54.42/100) ,
           alignSelf: 'center',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginTop: 30,
+          marginTop: '5%',
           paddingTop: 30,
           flexDirection: 'column',
           backgroundColor: '#1bc47d'
       },
+      insideGreenBoxTwo: {
+        width: Width*(77.867/100),
+        height:Height*(54.42/100) ,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginTop: '5%',
+        flexDirection: 'column',
+        backgroundColor: '#1bc47d'
+    },
+    descriptionView: {
+      flexDirection: 'column',
+    },
+    descriptionText: {
+        color: '#fff',
+        fontSize: 14,
+        fontFamily: 'proRegular',
+        marginBottom: 16
+    },
+    numberOrdersView: {
+        backgroundColor: '#61D4A4',
+        width: '78.425%',
+        height: '9.36%',
+        elevation: 2,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    numberOrdersText: {
+        color: '#fff',
+        fontFamily: 'proBold',
+        fontSize: 40
+    },
       noOrders: {
           width: 215,
           textAlign: 'center',

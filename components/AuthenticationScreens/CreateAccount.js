@@ -3,22 +3,37 @@ import {
   Platform,
   StyleSheet,
   Text,
-  Image,
-  Dimensions,
-  StatusBar,
   View,
+  Image,
+  StatusBar,
+  ImageBackground,
+  TouchableWithoutFeedback,
   ScrollView,
   TextInput,
-  TouchableOpacity
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
-//import LoaderModal from './Modals/LoaderModal';
-//var SharedPreferences = require("react-native-shared-preferences");
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import Toast from 'react-native-simple-toast';
+import { API_URL } from '../../root.js';
+import HideWithKeyboard from "react-native-hide-with-keyboard";
+import axios from "axios";
+import Loader from "../Includes/Loader";
+import { connect } from "react-redux";
+import { setToken, setId,  } from "../../actions/index";
+const mapStateToProps = state => ({
   ...state
-});*/
-class CreateAccount extends Component<Props> {
+});
+const mapDispatchToProps = dispatch => {
+  return {
+    setToken: token => dispatch(setToken(token)),
+    setId: id => dispatch(setId(id)),
+  };
+};
+class reduxCreateAccount extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -27,20 +42,75 @@ class CreateAccount extends Component<Props> {
     super(props);
     this.state = {
      regLoader: false,
-     full_name_text_input: true, 
+     first_name_text_input: true, 
+     last_name_text_input: false,
      email_text_input: false,
      number_text_input: false,
      address_text_input: false,
      zip_text_input: false, 
-     number: ''
+     password_text_input: false,
+     number: '',
+     first_name: '',
+     last_name: '',
+     address: '',
+     zip: '',
+     email: '',
+     password: '',
     };
   }
   componentDidMount(){
   }
+  createAccount(){
+    let regg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (regg.test(this.state.email) === false) {
+     Toast.show('Invalid Email')
+    } else if (this.state.password.length < 1 || this.state.address.length < 1 || this.state.email.length < 1
+      || this.state.first_name < 1 || this.state.last_name < 1 || this.state.zip < 1 || this.state.number < 1){
+      Toast.show('Please fill all required fields')
+    } else if (this.state.number.length != 10) {
+      Toast.show('Invalid Mobile Number')
+    }else if(this.state.password.length < 8){
+       Toast.show('Password must be up to 8 characters')
+    } else if (this.state.zip.length != 5) {
+      Toast.show('Invalid Zip code')
+    }else{
+      this.setState({regLoader: true})
+      var bodyParameters = {
+        email: this.state.email,
+        password: this.state.password,
+        address: this.state.address,
+        zipcode: this.state.zip,
+        mobile_number: this.state.number,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name
+      }
+      axios
+      .post(API_URL+"users", bodyParameters, {
+        timeout: 20000
+      })
+      .then(response => {
+        console.log(response);
+        let id = response.data.data._id;
+        let token = response.data.token;
+        this.props.setToken(token);
+        this.props.setId(id);
+        this.setState({ regLoader: false });
+      //  Toast.show('Sign in successful');
+        this.props.navigation.navigate("WelcomeAnimation", {});
+          })
+          .catch(error => {
+            console.log(error);
+            this.setState({ regLoader: false }); 
+            if (error.response.data) {
+              Toast.show(error.response.data.message);
+              console.log(JSON.stringify(error));
+            }
+          });
+    }
+  }
   render() {
     return (
      <View style={styles.container}>
-     
      <TouchableOpacity onPress={()=> this.props.navigation.goBack()}
      hitSlop={{left: 2, right: 2, top: 2, bottom: 2}}>
       <Image 
@@ -58,22 +128,44 @@ class CreateAccount extends Component<Props> {
        Full name
        </Text>
        </View>
-       <View style={this.state.full_name_text_input?styles.focusedTextFieldView:styles.textFieldView}>
+       <View style={styles.numberViewRow}>
+        <View style={this.state.first_name_text_input?styles.focusedSubNameFieldView:styles.subNameFieldView}>
        <TextInput
               underlineColorAndroid={"transparent"}
               allowFontScaling={false}
-              placeholder="Enter Full Name"
+              placeholder="Enter First Name"
               returnKeyType={'next'}
-              ref={ (input) => {this.fullNameTextInput = input }}
+              ref={ (input) => {this.firstNameTextInput = input }}
               blurOnSubmit={false}
-              onFocus={()=> this.setState({full_name_text_input: true})}
-              onBlur={()=> this.setState({full_name_text_input: false})}
-              onSubmitEditing={()=> {this.emailTextInput.focus();}}
+              onFocus={()=> this.setState({first_name_text_input: true})}
+              onBlur={()=> this.setState({first_name_text_input: false})}
+              onSubmitEditing={()=> {this.lastNameTextInput.focus();}}
               placeholderTextColor="#B9B2B2"
               autoFocus={true}
               style={styles.textFieldInput}
+              value={this.state.first_name}
+              onChangeText={first_name => this.setState({first_name})}
             />
        </View>
+       <View style={this.state.last_name_text_input?styles.focusedSubNameFieldView:styles.subNameFieldView}>
+       <TextInput
+              underlineColorAndroid={"transparent"}
+              allowFontScaling={false}
+              placeholder="Enter Last Name"
+              returnKeyType={'next'}
+              ref={ (input) => {this.lastNameTextInput = input }}
+              blurOnSubmit={false}
+              onFocus={()=> this.setState({last_name_text_input: true})}
+              onBlur={()=> this.setState({last_name_text_input: false})}
+              onSubmitEditing={()=> {this.emailTextInput.focus();}}
+              placeholderTextColor="#B9B2B2"
+              style={styles.textFieldInput}
+              value={this.state.last_name}
+              onChangeText={last_name => this.setState({last_name})}
+            />
+       </View>
+       </View>
+
        <View style={styles.fullNameView}>
        <Text style={styles.fullNameText}>
        Email
@@ -89,9 +181,34 @@ class CreateAccount extends Component<Props> {
               blurOnSubmit={false}
               onFocus={()=> this.setState({email_text_input: true})}
               onBlur={()=> this.setState({email_text_input: false})}
+              onSubmitEditing={()=> {this.passwordTextInput.focus();}}
+              placeholderTextColor="#B9B2B2"
+              style={styles.textFieldInput}
+              value={this.state.email}
+              onChangeText={email => this.setState({email})}
+            />
+       </View>
+       <View style={styles.fullNameView}>
+       <Text style={styles.fullNameText}>
+       Password
+       </Text>
+       </View>
+       <View style={this.state.password_text_input?styles.focusedTextFieldView:styles.textFieldView}>
+       <TextInput
+              underlineColorAndroid={"transparent"}
+              allowFontScaling={false}
+              securedTextEntry={true}
+              placeholder="Enter Password, at least 8 characters"
+              returnKeyType={'next'}
+              ref={ (input) => {this.passwordTextInput = input }}
+              blurOnSubmit={false}
+              onFocus={()=> this.setState({password_text_input: true})}
+              onBlur={()=> this.setState({password_text_input: false})}
               onSubmitEditing={()=> {this.numberTextInput.focus();}}
               placeholderTextColor="#B9B2B2"
               style={styles.textFieldInput}
+              value={this.state.password}
+              onChangeText={password => this.setState({password})}
             />
        </View>
        <View style={styles.fullNameView}>
@@ -115,13 +232,14 @@ class CreateAccount extends Component<Props> {
               placeholder="Enter Mobile Number"
               returnKeyType={'next'}
               keyboardType={'numeric'}
-
+              value={this.state.number}
+              onChangeText={number => this.setState({number})}
               ref={ (input) => {this.numberTextInput = input }}
               blurOnSubmit={false}
               onFocus={()=> this.setState({number_text_input: true})}
               onBlur={()=> this.setState({number_text_input: false})}
               onSubmitEditing={()=> {
-                  if(this.state.number && this.state.number ==  10){
+                  if(this.state.number && this.state.number.length ==  10){
                       this.addressTextInput.focus();}
                       }
                   }
@@ -148,6 +266,8 @@ class CreateAccount extends Component<Props> {
               onSubmitEditing={()=> {this.zipTextInput.focus();}}
               placeholderTextColor="#B9B2B2"
               style={styles.textFieldInput}
+              value={this.state.address}
+              onChangeText={address => this.setState({address})}
             />
        </View>
        <View style={styles.fullNameView}>
@@ -165,26 +285,39 @@ class CreateAccount extends Component<Props> {
               ref={ (input) => {this.zipTextInput = input }}
               blurOnSubmit={false}
               onFocus={()=> this.setState({zip_text_input: true})}
+              onSubmitEditing={this.createAccount.bind(this)}
+              onSubmitEditing={()=> {
+                  if(this.state.zip && this.state.zip ==  5){
+                    this.createAccount.bind(this);}
+                      }
+                  }
               onBlur={()=> this.setState({zip_text_input: false})}
               placeholderTextColor="#B9B2B2"
               style={styles.textFieldInput}
+              value={this.state.zip}
+              onChangeText={zip => this.setState({zip})}
             />
        </View></ScrollView>
-       <TouchableOpacity onPress={()=> this.props.navigation.navigate('WelcomeAnimation')}>
+       <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignIn')}>
+       <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#1bc47d',
+       fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'proRegular'}}>
+         Already Have an Account?, Sign In
+       </Text></TouchableOpacity>
+       <TouchableOpacity onPress={this.createAccount.bind(this)}>
        <View style={styles.continueView}>
           <Text style={styles.continueText}>
           CONTINUE
           </Text>
         </View></TouchableOpacity>
       </View>
-      
+      {this.state.regLoader?<Loader /> :null} 
      </View>
     );
   }
 }
-/*const Splash = connect(
-  mapStateToProps,
-)(reduxSplash);*/
+const CreateAccount = connect(
+  mapStateToProps, mapDispatchToProps
+)(reduxCreateAccount);
 export default CreateAccount;
 const styles = StyleSheet.create({
     container: {
@@ -247,6 +380,26 @@ const styles = StyleSheet.create({
       marginBottom: 23,
       alignSelf: 'center'
   },  
+  subNameFieldView: {
+      width: '45%',
+      height: 50,
+      borderRadius: 3,
+      borderColor: '#fefefe',
+      borderWidth: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignSelf: 'center'
+  },
+  focusedSubNameFieldView: {
+    width: '45%',
+    height: 50,
+    borderRadius: 3,
+    borderColor: '#1bc47d',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
   numberViewRow: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -295,7 +448,7 @@ textFieldInput: {
     justifyContent: 'center',
     color: '#000',
     fontSize: 16,
-     fontFamily: "proRegular",
+     fontFamily: "proSemi",
      paddingLeft: -1
  },
  continueView:{

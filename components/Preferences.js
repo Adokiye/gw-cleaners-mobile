@@ -1,28 +1,38 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  Image,
-  Dimensions,
-  StatusBar,
-  View,
-  TouchableOpacity,
-  ScrollView
+    ActivityIndicator,
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    StatusBar,
+    NetInfo,
+    Animated,
+    ImageBackground,
+    TouchableWithoutFeedback,
+    ScrollView,
+    Dimensions,
+    FlatList,
+    Alert,
+    TouchableOpacity,
+    RefreshControl
 } from "react-native";
-//import LoaderModal from './Modals/LoaderModal';
+import Loader from "./Includes/Loader";
+import { API_URL } from '../root.js';
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
 import SwitchSelector from "react-native-switch-selector";
-//var SharedPreferences = require("react-native-shared-preferences");
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import { connect } from "react-redux";
+const mapStateToProps = state => ({
   ...state
-});*/
+});
 const options = [
     { label: "", value: "true",  },
     { label: "", value: "false", },
   ];
-class Preferences extends Component<Props> {
+class reduxPreferences extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -32,11 +42,35 @@ class Preferences extends Component<Props> {
     super(props);
     this.state = {
      regLoader: false,
-     separateWhites: ''
+     separateWhites: '',
+     softener: '',
+     crease: '',
+     starch: '',
+     price: ''
     };
   }
   componentDidMount(){
   }
+  order(){
+ //  this.setState({regLoader: true})
+   if(this.state.separateWhites){
+      this.setState({price: 300})
+   }
+   let preference = '';
+   if(this.state.separateWhites){
+       preference = preference+ 'Separate Whites, '
+   }
+   if(this.state.softener){
+       preference = preference+ 'Softener, '
+   }
+   if(this.state.crease){
+       preference= preference+ 'Crease, '
+   }
+   if(this.state.starch){
+       preference = preference+ 'Starch, '
+   }
+   this.props.navigation.navigate('MyCards', {order: true, preference: preference, price: this.state.price})
+}
   render() {
     return (
         <View style={styles.container}>
@@ -103,7 +137,7 @@ class Preferences extends Component<Props> {
             <View style={{width: 58}}>
             <SwitchSelector
             initial={0}
-            onPress={value => this.setState({ separateWhites: value })}
+            onPress={value => this.setState({ softener: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
             buttonColor={'#1bc47d'}
@@ -130,7 +164,7 @@ class Preferences extends Component<Props> {
             <View style={{width: 58}}>
             <SwitchSelector
             initial={0}
-            onPress={value => this.setState({ separateWhites: value })}
+            onPress={value => this.setState({ crease: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
             buttonColor={'#1bc47d'}
@@ -154,7 +188,7 @@ class Preferences extends Component<Props> {
             <View style={{width: 58}}>
             <SwitchSelector
             initial={0}
-            onPress={value => this.setState({ separateWhites: value })}
+            onPress={value => this.setState({ starch: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
             buttonColor={'#1bc47d'}
@@ -166,7 +200,7 @@ class Preferences extends Component<Props> {
             />
             </View>
         </View>
-        <TouchableOpacity onPress={()=> this.props.navigation.navigate('OrderProcessed')}>
+        <TouchableOpacity onPress={this.order.bind(this)}>
         <View style={styles.circleView}>
          <Image 
              source={require('../assets/images/rightArrow.png')}
@@ -175,13 +209,14 @@ class Preferences extends Component<Props> {
          />
            </View></TouchableOpacity>
         </ScrollView>
+        {this.state.regLoader?<Loader /> :null} 
         </View>
     );
   }
 }
-/*const Splash = connect(
+const Preferences = connect(
   mapStateToProps,
-)(reduxSplash);*/
+)(reduxPreferences);
 export default Preferences;
 const styles = StyleSheet.create({
     container: {
@@ -249,7 +284,7 @@ const styles = StyleSheet.create({
           fontSize: 8,
           color: '#FF0707',
           position:'absolute',
-          bottom: 20
+          bottom: 2
       },
       circleView:{
           width: 43,

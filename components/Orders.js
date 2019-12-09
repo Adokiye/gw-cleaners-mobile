@@ -1,23 +1,33 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   Platform,
   StyleSheet,
   Text,
-  Image,
-  Dimensions,
-  StatusBar,
   View,
+  Image,
+  StatusBar,
+  NetInfo,
+  Animated,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  ScrollView,
+  Dimensions,
+  FlatList,
+  Alert,
   TouchableOpacity,
-  ScrollView
+  RefreshControl
 } from "react-native";
-//import LoaderModal from './Modals/LoaderModal';
-//var SharedPreferences = require("react-native-shared-preferences");
+import Loader from "./Includes/Loader";
+import { API_URL } from '../root.js';
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import { connect } from "react-redux";
+const mapStateToProps = state => ({
   ...state
-});*/
-class Orders extends Component<Props> {
+});
+class reduxOrders extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -27,12 +37,88 @@ class Orders extends Component<Props> {
     super(props);
     this.state = {
      regLoader: false,
-     separateWhites: ''
+     separateWhites: '',
+     orders: ''
     };
+    this.getApiData = this.getApiData.bind(this);
   }
   componentDidMount(){
+    this.setState({regLoader: true})
+    this.getApiData();
+  }
+  getApiData(){
+    console.log(this.props.token)
+    var config = {
+        headers: {'Authorization': "Bearer " + this.props.token},
+        timeout: 20000
+    };
+    axios
+    .get(
+      API_URL+"orders/" + this.props.id, config
+    )
+    .then(response => {
+      console.log(response);
+      if (response.data && response.data.length > 0) {
+        console.log("response.data");
+          console.log("here" + response.data);
+          var len = response.data.length;
+          this.setState({orders: []})
+          for (let i = 0; i < len; i++) {
+            let row = response.data[i];
+              this.setState(prevState => ({
+                orders: [...prevState.orders, row]
+              }));
+          }
+    }
+      this.setState({ regLoader: false, fetch: false });
+    })
+    .catch(error => {
+        this.setState({regLoader: false})
+      if(error.code == 'ECONNABORTED'){
+        Toast.show('Connection TImeout')
+    }else{
+        Toast.show(error.message)
+    }
+      console.log(error);
+    });
   }
   render() {
+    let orders = '';
+    orders = (
+      <FlatList
+      data={this.state.orders}
+      renderItem={({ item, index }) => (
+        <View style={styles.orderView}>
+        <View style={styles.rightImageView}>
+          <Image
+            source={require('../assets/images/sideOrder.png')}
+            style={{flex: 1}}
+            resizeMode={'contain'}
+           />
+        </View>
+        <Text style={styles.orderDetailsHeader}>
+        {item.order_id}
+        </Text>
+        <Text style={styles.orderDetailsSubText}>
+        Dropbox:Bronx Avenue, NY{'\n'}
+        Locker Number: N/A{'\n'}
+        Locker Code: N/A{'\n'}
+        </Text>
+ {/*      <View style={styles.meterView}>
+         <View style={styles.insideMeterView}></View>
+       </View>
+       <Text style={styles.orderDetailsSubText}> Sorting Stage</Text>
+        <Text style={styles.inProcessTime}>
+        Pick up between October 21 and October 24</Text>*/} 
+        <View style={styles.statusView}>
+          <View style={item.stage == 'In Process'?styles.inProcessCircle:styles.completedCircle}></View>
+          <Text style={styles.statusText}>{item.stage}</Text>
+        </View>
+        </View>
+      )}
+      keyExtractor={(item, index) => `list-item-${index}`}
+    />
+  );
     return (
         <View style={styles.container}>
         <View style={styles.headerView}>
@@ -54,64 +140,16 @@ class Orders extends Component<Props> {
             </View>
         </View>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={styles.orderView}>
-        <View style={styles.rightImageView}>
-          <Image
-            source={require('../assets/images/sideOrder.png')}
-            style={{flex: 1}}
-            resizeMode={'contain'}
-           />
-        </View>
-        <Text style={styles.orderDetailsHeader}>
-        #2300B4V
-        </Text>
-        <Text style={styles.orderDetailsSubText}>
-        Dropbox:Bronx Avenue, NY{'\n'}
-        Locker Number: #db0001{'\n'}
-        Locker Code: 211256{'\n'}
-        </Text>
-       <View style={styles.meterView}>
-         <View style={styles.insideMeterView}></View>
-       </View>
-       <Text style={styles.orderDetailsSubText}> Sorting Stage</Text>
-        <Text style={styles.inProcessTime}>
-        Pick up between October 21 and October 24</Text>
-        <View style={styles.statusView}>
-          <View style={styles.inProcessCircle}></View>
-          <Text style={styles.statusText}>In Process</Text>
-        </View>
-        </View>
-        <View style={styles.orderView}>
-        <View style={styles.rightImageView}>
-          <Image
-            source={require('../assets/images/sideOrder.png')}
-            style={{flex: 1}}
-            resizeMode={'contain'}
-           />
-        </View>
-        <Text style={styles.orderDetailsHeader}>
-        #220000
-        </Text>
-        <Text style={styles.orderDetailsSubText}>
-        Dropbox:Bronx Avenue, NY{'\n'}
-        Locker Number: #db0001{'\n'}
-        Locker Code: 211256{'\n'}
-        </Text>
-        <Text style={styles.inProcessTime}>
-        25|11|2019</Text>
-        <View style={styles.statusView}>
-          <View style={styles.completedCircle}></View>
-          <Text style={styles.statusText}>Completed</Text>
-        </View>
-        </View>
+          {orders}
         </ScrollView>
+        {this.state.regLoader?<Loader /> :null} 
         </View>
     );
   }
 }
-/*const Splash = connect(
+const Orders = connect(
   mapStateToProps,
-)(reduxSplash);*/
+)(reduxOrders);
 const dimensions = Dimensions.get("window");
 const Width = dimensions.width;
 export default Orders;

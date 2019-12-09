@@ -20,6 +20,7 @@ import Splash from "./components/Splash";
 import Welcome from "./components/Welcome";
 import WelcomeAnimation from "./components/WelcomeAnimation";
 import CreateAccount from "./components/AuthenticationScreens/CreateAccount"
+import SignIn from "./components/AuthenticationScreens/SignIn"
 import Dashboard from "./components/Dashboard/index"
 import DropBox from "./components/Dashboard/DropBox"
 import Preferences from "./components/Preferences"
@@ -32,9 +33,17 @@ import MyCards from "./components/MyCards"
 import AddCard from "./components/AddCard"
 import CardSuccess from "./components/CardSuccess"
 import { createStackNavigator } from "react-navigation";
+import { persistor, store } from "./store/index";
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/es/integration/react';
+import {SQIPCore} from 'react-native-square-in-app-payments';
+import {APPLICATION_ID} from './root.js'
 type Props = {};
 const RootStack = createStackNavigator({
   Home: {
+    screen:  Splash           //Welcome
+  },
+  Welcome: {
     screen: Welcome
   },
   WelcomeAnimation: {
@@ -42,6 +51,9 @@ const RootStack = createStackNavigator({
  },
  CreateAccount: {
    screen: CreateAccount
+ },
+ SignIn: {
+   screen: SignIn
  },
  Dashboard: {
    screen: Dashboard
@@ -85,26 +97,19 @@ class App extends Component<Props> {
       timePassed: false
     };
   }
-  componentDidMount() {
-    // SplashScreen.hide()
+ async componentDidMount() {
+    await SQIPCore.setSquareApplicationId(APPLICATION_ID)
   }
   render() {
-    setTimeout(() => {
-      this.setState({ timePassed: true });
-    }, 500);
-    if (this.state.timePassed) {
-      return (
+    return (
+      <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <View style={styles.container}>
           <RootStack />
         </View>
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          <Splash />
-        </View>
-      );
-    }
+        </PersistGate>
+        </Provider>
+    );
   }
 }
 /*function connectWithStore(store, WrappedComponent, ...args) {

@@ -1,24 +1,33 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   Platform,
   StyleSheet,
   Text,
-  Image,
-  Dimensions,
-  StatusBar,
   View,
-  TouchableOpacity,
-  ScrollView
+  Image,
+  StatusBar,
+  NetInfo,
+  Animated,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  ScrollView,
+  Dimensions,
+  FlatList,
+  Alert,
+  TouchableOpacity
 } from "react-native";
-//import LoaderModal from './Modals/LoaderModal';
 import ProfileNavBar from '../Includes/ProfileNavBar'
-//var SharedPreferences = require("react-native-shared-preferences");
+import Loader from "../Includes/Loader";
+import { API_URL } from '../../root.js';
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import { connect } from "react-redux";
+const mapStateToProps = state => ({
   ...state
-});*/
-class Profile extends Component<Props> {
+});
+class reduxProfile extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -30,10 +39,33 @@ class Profile extends Component<Props> {
      myOrders: false,
      myCards: false,
      trackOrder: false,
-     settings: false
+     settings: false,
+     first_name: '',
+     last_name: ''
     };
+    this.getApiData = this.getApiData.bind(this);
   }
   componentDidMount(){
+    this.setState({regLoader: true})
+    this.getApiData();
+  }
+  getApiData(){
+    var config = {
+      headers: {'Authorization': "Bearer " + this.props.token},
+      timeout: 20000
+  };
+    axios.get(API_URL+"users/" + this.props.id, config).then(response => {
+      console.log(response);
+      this.setState({first_name: response.data.first_name, last_name: response.data.last_name, regLoader: false})
+    }).catch(error => {
+      this.setState({regLoader: false})
+    if(error.code == 'ECONNABORTED'){
+      Toast.show('Connection TImeout')
+  }else{
+      Toast.show(error.data.message)
+  }
+    console.log(error);
+  });
   }
   render() {
     return (
@@ -60,10 +92,10 @@ class Profile extends Component<Props> {
         <Image 
                 source={require('../../assets/images/pp.png')}
                 resizeMode={'contain'}
-                style={{flex: 1, borderRadius: 45, alignSelf: 'center' }}
+                style={{flex: 1, alignSelf: 'center' }}
             />
         </View>
-        <Text style={styles.userName}>Alan Smith</Text>
+        <Text style={styles.userName}>{this.state.first_name} {this.state.last_name}</Text>
         <View style={styles.optionParentView}>
          <TouchableOpacity onPressIn={()=> this.setState({myOrders: true})}
          onPressOut={()=> this.setState({myOrders: false})}
@@ -86,7 +118,7 @@ class Profile extends Component<Props> {
          </View></TouchableOpacity>
          <TouchableOpacity onPressIn={()=> this.setState({myCards: true})}
          onPressOut={()=> this.setState({myCards: false})}
-         onPress={()=> this.props.navigation.navigate('MyCards')}>
+         onPress={()=> this.props.navigation.navigate('MyCards', {order:false})}>
          <View style={this.state.myCards?styles.optionPressedView:
          styles.optionUnPressedView}>
           {!this.state.myCards?
@@ -144,13 +176,14 @@ class Profile extends Component<Props> {
         </View> */}
         </ScrollView>
         <ProfileNavBar navigation={this.props.navigation}/>
+        {this.state.regLoader?<Loader /> :null} 
         </View>
     );
   }
 }
-/*const Splash = connect(
+const Profile = connect(
   mapStateToProps,
-)(reduxSplash);*/
+)(reduxProfile);
 const dimensions = Dimensions.get("window");
 const Width = dimensions.width;
 export default Profile;

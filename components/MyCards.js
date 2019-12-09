@@ -1,23 +1,33 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   Platform,
   StyleSheet,
   Text,
-  Image,
-  Dimensions,
-  StatusBar,
   View,
+  Image,
+  StatusBar,
+  NetInfo,
+  Animated,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  ScrollView,
+  Dimensions,
+  FlatList,
+  Alert,
   TouchableOpacity,
-  ScrollView
+  RefreshControl
 } from "react-native";
-//import LoaderModal from './Modals/LoaderModal';
-//var SharedPreferences = require("react-native-shared-preferences");
+import Loader from "./Includes/Loader";
+import { API_URL } from '../root.js';
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import { connect } from "react-redux";
+const mapStateToProps = state => ({
   ...state
-});*/
-class MyCards extends Component<Props> {
+});
+class reduxMyCards extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -27,12 +37,158 @@ class MyCards extends Component<Props> {
     super(props);
     this.state = {
      regLoader: false,
-     separateWhites: ''
+     cards: []
     };
+    this.getApiData = this.getApiData.bind(this);
   }
   componentDidMount(){
+    const {params} = this.props.navigation.state
+    console.log(params)
+    this.setState({regLoader: true})
+    this.getApiData();
+  }
+  getApiData(){
+    const {params} = this.props.navigation.state;
+    var config = {
+      headers: {'Authorization': "Bearer " + this.props.token},
+      timeout: 20000
+  };
+  axios
+  .get(
+    API_URL+"cards/" + this.props.id, config
+  )
+  .then(response => {
+    console.log(response);
+    if (response.data && response.data.length > 0) {
+      console.log("response.data");
+        console.log("here" + response.data);
+        var len = response.data.length;
+        this.setState({cards: []})
+        for (let i = 0; i < len; i++) {
+          let row = response.data[i];
+            this.setState(prevState => ({
+              cards: [...prevState.cards, row]
+            }));
+        }
+  }else{  
+    Toast.show('No Card available')
+     if(params.order){
+       this.props.navigation.navigate('AddCard', {order: true, preferences: params.preferences||null, price: params.price||null})
+     }
+   
+  }
+    this.setState({ regLoader: false, fetch: false });
+  })
+  .catch(error => {
+      this.setState({regLoader: false})
+    if(error.code == 'ECONNABORTED'){
+      Toast.show('Connection TImeout')
+  }else{
+      Toast.show(error.message)
+  }
+    console.log(error);
+  });
+  }
+  order(card_id){
+    const {params} = this.props.navigation.state
+    this.setState({regLoader: true})
+    var config = {
+      headers: {'Authorization': "Bearer " + this.props.token},
+      timeout: 20000
+  };
+    var bodyParameters = {
+      card_id: card_id,
+      user_id: this.props.id,
+      price: params.price||null,
+      preference: params.preference||null
+    };
+            axios
+    .post(API_URL+"orders", bodyParameters, config)
+    .then(response => {
+      console.log(response);
+      Toast.show('Success')
+      this.setState({regLoader: false})
+      if(params.order){
+        this.props.navigation.navigate('OrderProcessed')
+      }else{
+        this.props.navigation.navigate('Dashboard')
+      }
+        })
+        .catch(error => {
+          console.log(error);
+          this.setState({ regLoader: false }); 
+          if (error) {
+            Toast.show(error.message);
+            console.log(JSON.stringify(error));
+          }
+        });
   }
   render() {
+   let cards = '';
+   const {params} = this.props.navigation.state;
+   if(this.state.cards){
+     if(params.order){
+      cards =  (
+        <FlatList
+        data={this.state.cards}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={this.order.bind(this)}>
+                    <View style={styles.cardView}>
+                    <Text style={styles.cardLastDigits}>{item.name}</Text>
+        <View style={styles.cardLastDigitsView}>
+          <Image 
+            source={require('../assets/images/greyCircleGroup.png')}
+            style={{width: 46.67, height: 8.46}}
+          />
+                    <Image 
+            source={require('../assets/images/greyCircleGroup.png')}
+            style={{width: 46.67, height: 8.46}}
+          />
+                    <Image 
+            source={require('../assets/images/greyCircleGroup.png')}
+            style={{width: 46.67, height: 8.46}}
+          />
+           <Text style={styles.cardLastDigits}>{item.no}</Text>
+        </View>
+        <Text style={styles.dateText}>{item.month}/{item.year}</Text>
+        </View>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item, index) => `list-item-${index}`}
+      />
+    );
+     }else{
+       cards =  (
+      <FlatList
+      data={this.state.orders}
+      renderItem={({ item, index }) => (
+        <View style={styles.cardView}>
+                    <Text style={styles.cardLastDigits}>{item.name}</Text>
+        <View style={styles.cardLastDigitsView}>
+          <Image 
+            source={require('../assets/images/greyCircleGroup.png')}
+            style={{width: 46.67, height: 8.46}}
+          />
+                    <Image 
+            source={require('../assets/images/greyCircleGroup.png')}
+            style={{width: 46.67, height: 8.46}}
+          />
+                    <Image 
+            source={require('../assets/images/greyCircleGroup.png')}
+            style={{width: 46.67, height: 8.46}}
+          />
+           <Text style={styles.cardLastDigits}>{item.no}</Text>
+        </View>
+        <Text style={styles.dateText}>{item.month}/{item.year}</Text>
+        </View>
+      )}
+      keyExtractor={(item, index) => `list-item-${index}`}
+    />
+  );
+     }
+   }else{
+     cards = null;
+   }
     return (
         <View style={styles.container}>
         <View style={styles.headerView}>
@@ -52,7 +208,7 @@ class MyCards extends Component<Props> {
                    My Cards
                 </Text>        
             </View>
-        <TouchableOpacity onPress={()=> this.props.navigation.navigate('AddCard')}>
+        <TouchableOpacity onPress={()=> this.props.navigation.navigate('AddCard', {order: false})}>
         <Image 
                 source={require('../assets/images/plus.png')}
                 resizeMode={'contain'}
@@ -60,37 +216,16 @@ class MyCards extends Component<Props> {
             /></TouchableOpacity>
         </View>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={styles.cardView}>
-        <Image 
-          source={require('../assets/images/mastercard.png')}
-          resizeMode={'contain'}
-          style={{width: 42, height: 42}}
-        />
-        <View style={styles.cardLastDigitsView}>
-          <Image 
-            source={require('../assets/images/greyCircleGroup.png')}
-            style={{width: 46.67, height: 8.46}}
-          />
-                    <Image 
-            source={require('../assets/images/greyCircleGroup.png')}
-            style={{width: 46.67, height: 8.46}}
-          />
-                    <Image 
-            source={require('../assets/images/greyCircleGroup.png')}
-            style={{width: 46.67, height: 8.46}}
-          />
-           <Text style={styles.cardLastDigits}>1234</Text>
-        </View>
-        <Text style={styles.dateText}>09/20</Text>
-        </View>
+         {cards}
         </ScrollView>
+        {this.state.regLoader?<Loader /> :null} 
         </View>
     );
   }
 }
-/*const Splash = connect(
+const MyCards = connect(
   mapStateToProps,
-)(reduxSplash);*/
+)(reduxMyCards);
 const dimensions = Dimensions.get("window");
 const Width = dimensions.width;
 export default MyCards;

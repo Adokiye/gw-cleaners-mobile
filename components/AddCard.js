@@ -11,14 +11,19 @@ import {
   ScrollView,
   TextInput
 } from "react-native";
-//import LoaderModal from './Modals/LoaderModal';
-//var SharedPreferences = require("react-native-shared-preferences");
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import { connect } from "react-redux";
+import Loader from "./Includes/Loader";
+import { API_URL, APPLICATION_ID, LOCATION_ID } from '../root.js';
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
+import {
+  SQIPCardEntry,
+} from 'react-native-square-in-app-payments';
+const mapStateToProps = state => ({
   ...state
-});*/
-class AddCard extends Component<Props> {
+});
+class reduxAddCard extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -37,8 +42,98 @@ class AddCard extends Component<Props> {
      year: '',
      year_text_input: false
     };
+    this.onStartCardEntry = this.onStartCardEntry.bind(this);
+    this.onCardNonceRequestSuccess = this.onCardNonceRequestSuccess.bind(this);
   }
   componentDidMount(){
+    Toast.show('Please wait a moment, you\'ll soon be redirected');
+    this.onStartCardEntry();
+  }
+    /**
+   * Callback when the card entry is closed after call 'SQIPCardEntry.completeCardEntry'
+   */
+  onCardEntryComplete() {
+    const {params} = this.props.navigation.state;
+    Toast.show('Card  Added Successfully')
+    if(params.order){
+      this.props.navigation.navigate('OrderProcessed')
+    }else{
+      this.props.navigation.navigate('Dashboard')
+    }
+    
+  }
+    /**
+   * Callback when successfully get the card nonce details for processig
+   * card entry is still open and waiting for processing card nonce details
+   * @param {*} cardDetails
+   */
+  async onCardNonceRequestSuccess(cardDetails) {
+    try {
+      // take payment with the card details
+      // await chargeCard(cardDetails);
+
+      const {params} = this.props.navigation.state;
+      console.log(JSON.stringify(params)+"addcard")
+      if(params.order){ 
+             var config = {
+        headers: {'Authorization': "Bearer " + this.props.token},
+        timeout: 20000
+    };
+      var bodyParameters = {
+        nonce: cardDetails.nonce,
+        user_id: this.props.id,
+        price: params.price||null,
+        preference: params.preference||null
+      };
+      await  axios
+      .post(API_URL+"cards", bodyParameters, config)
+      .then(response => {
+        console.log(response);
+              SQIPCardEntry.completeCardEntry(
+        this.onCardEntryComplete(),
+      );
+          })
+          .catch(error => {
+            console.log(error);
+            this.setState({ regLoader: false }); 
+            if (error) {
+              Toast.show(error.response.data.message);
+          //    this.props.navigation.navigate('Dashboard')
+              console.log(JSON.stringify(error));
+            }
+          });
+      }else{
+        await SQIPCardEntry.completeCardEntry(
+          this.onCardEntryComplete(),
+        );
+      }
+
+      // payment finished successfully
+      // you must call this method to close card entry
+
+    } catch (ex) {
+      // payment failed to complete due to error
+      // notify card entry to show processing error
+      Toast.show(ex.message);
+      await SQIPCardEntry.showCardNonceProcessingError(ex.message);
+    }
+  }
+    /**
+   * Callback when card entry is cancelled and UI is closed
+   */
+  onCardEntryCancel() {
+   Toast.show('Cancelled')
+  // this.props.navigation.navigate('Dashboard')
+  }
+  async onStartCardEntry() {
+    const cardEntryConfig = {
+      collectPostalCode: true,
+    };
+    await SQIPCardEntry.startCardEntryFlow(
+      cardEntryConfig,
+      this.onCardNonceRequestSuccess,
+      this.onCardEntryCancel,
+    );
   }
   render() {
     return (
@@ -61,7 +156,7 @@ class AddCard extends Component<Props> {
                 </Text>        
             </View>
         </View>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        {/* <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.fullNameView}>
        <Text style={styles.fullNameText}>
        Card Number
@@ -175,14 +270,14 @@ class AddCard extends Component<Props> {
           ADD CARD
           </Text>
         </View></TouchableOpacity>
-        </ScrollView>
+        </ScrollView> */}
         </View>
     );
   }
 }
-/*const Splash = connect(
+const AddCard = connect(
   mapStateToProps,
-)(reduxSplash);*/
+)(reduxAddCard);
 const dimensions = Dimensions.get("window");
 const Width = dimensions.width;
 export default AddCard;

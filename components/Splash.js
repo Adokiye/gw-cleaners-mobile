@@ -12,11 +12,10 @@ import {
 //import LoaderModal from './Modals/LoaderModal';
 //var SharedPreferences = require("react-native-shared-preferences");
 type Props = {};
-//import { connect } from "react-redux";
-/*const mapStateToProps = state => ({
+import { connect } from "react-redux";const mapStateToProps = state => ({
   ...state
-});*/
-class Splash extends Component<Props> {
+});
+class reduxSplash extends Component<Props> {
   static navigationOptions = {
     header: null,
     drawerLockMode: "locked-closed"
@@ -24,12 +23,16 @@ class Splash extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-     regLoader: true
+     regLoader: false
     };
   }
   componentDidMount(){
-    
-  }
+    if(this.props.token){
+      this.props.navigation.navigate('Dashboard')
+    }else{
+     this.props.navigation.navigate('Welcome')
+    }
+   }
   render() {
     return (
         <View style={styles.container}>
@@ -44,9 +47,9 @@ class Splash extends Component<Props> {
     );
   }
 }
-/*const Splash = connect(
+const Splash = connect(
   mapStateToProps,
-)(reduxSplash);*/
+)(reduxSplash);
 export default Splash;
 const styles = StyleSheet.create({
     container: {
