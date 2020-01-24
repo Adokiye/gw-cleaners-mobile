@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         width: 60,
-        height: 100,
+        height: 150,
         bottom: 0,
       },
       meterView: {

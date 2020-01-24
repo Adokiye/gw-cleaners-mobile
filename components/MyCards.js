@@ -138,7 +138,9 @@ class reduxMyCards extends Component<Props> {
       dropoff_date: this.props.dropoffDate,
       pickup_date: this.props.pickupDate,
       dropoff_time: this.props.dropoffTime,
-      pickup_time: this.props.pickupTime
+      pickup_time: this.props.pickupTime,
+      dropbox_id: this.props.dropboxId,
+      dropbox_adress: this.props.dropbox_address,
     };
     //  console.log(bodyParameters)
     axios
@@ -148,7 +150,7 @@ class reduxMyCards extends Component<Props> {
         Toast.show("Success");
         this.setState({ regLoader: false });
 
-        //this.props.navigation.navigate('OrderProcessed');
+        this.props.navigation.navigate('OrderProcessed');
       })
       .catch(error => {
         console.log(error);

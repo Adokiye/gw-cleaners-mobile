@@ -36,13 +36,13 @@ export default class Loader extends Component {
     return (
       <View style={{height: "100%",
       width: "100%", flexDirection: 'column', alignItems: 'center',
-       justifyContent: 'center', position: 'absolute', top: 0}}>
+       justifyContent: 'center', position: 'absolute', top: 0, bottom: 0}}>
       <View
        style={{    height: "100%",
     width: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     position: "absolute",
-    top: 0 }}
+    top: 0, bottom: 0 }}
       />
       <View style={{width: 120, height: 50, borderRadius: 10, flexDirection: 'row',
       backgroundColor: '#fff', justifyContent: 'space-around', alignItems: 'center', alignSelf: 'center'}}>

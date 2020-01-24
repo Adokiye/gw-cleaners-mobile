@@ -81,7 +81,7 @@ class reduxDashboard extends Component<Props> {
           this.setState({pending: [], completed: []})
           for (let i = 0; i < len; i++) {
             let row = response.data[i];
-            if (row.stage == "In Process") {
+            if (row.stage == "pending" || row.stage == 'active') {
               this.setState(prevState => ({
                 pending: [...prevState.pending, row]
               }));
@@ -138,19 +138,22 @@ class reduxDashboard extends Component<Props> {
   render() {
       let show = '';
       if(this.state.pending.length > 0 || this.state.completed.length > 0){
-        show = <View style={styles.insideGreenBoxTwo}>
+        show = 
+        <View style={styles.insideGreenBoxTwo}>
+        <TouchableOpacity onPress={()=> this.props.navigation.navigate('Orders')}> 
         <View style={styles.descriptionView}>
           <Text style={styles.descriptionText}>Orders In Process</Text>
           <View style={styles.numberOrdersView}>
               <Text style={styles.numberOrdersText}>{this.state.pending.length}</Text>
           </View>
-        </View>
+        </View></TouchableOpacity>
+        <TouchableOpacity onPress={()=> this.props.navigation.navigate('Orders')}>
         <View style={styles.descriptionView}>
           <Text style={styles.descriptionText}>Completed Orders</Text>
           <View style={styles.numberOrdersView}>
               <Text style={styles.numberOrdersText}>{this.state.completed.length}</Text>
           </View>
-        </View>
+        </View></TouchableOpacity>
     </View>
       }else{
        show = <View style={styles.insideGreenBox}>

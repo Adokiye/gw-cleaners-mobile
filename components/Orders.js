@@ -46,6 +46,23 @@ class reduxOrders extends Component<Props> {
     this.setState({regLoader: true})
     this.getApiData();
   }
+  circle(value){
+    if(value == 'pending'){
+      return(
+        <View style={styles.inProcessCircle}/>
+      )
+    }
+    if(value == 'active'){
+      return(
+        <View style={styles.active}/>
+      )
+    }
+    if(value == 'completed'){
+      return(
+        <View style={styles.completedCircle}/>
+      )
+    }
+  }
   getApiData(){
     console.log(this.props.token)
     var config = {
@@ -84,6 +101,7 @@ class reduxOrders extends Component<Props> {
   }
   render() {
     let orders = '';
+    
     orders = (
       <FlatList
       data={this.state.orders}
@@ -100,9 +118,10 @@ class reduxOrders extends Component<Props> {
         {item.order_id}
         </Text>
         <Text style={styles.orderDetailsSubText}>
-        Dropbox:Bronx Avenue, NY{'\n'}
-        Locker Number: N/A{'\n'}
-        Locker Code: N/A{'\n'}
+        Dropbox:{item.dropbox_address}{'\n'}
+        Locker Number: {item.locker_id}{'\n'}
+        Locker Code: last 4 digits of phone no{'\n'}
+        Sub Stage: {item.sub_stage?item.sub_stage:"N/A"}
         </Text>
  {/*      <View style={styles.meterView}>
          <View style={styles.insideMeterView}></View>
@@ -111,7 +130,8 @@ class reduxOrders extends Component<Props> {
         <Text style={styles.inProcessTime}>
         Pick up between October 21 and October 24</Text>*/} 
         <View style={styles.statusView}>
-          <View style={item.stage == 'In Process'?styles.inProcessCircle:styles.completedCircle}></View>
+        {this.circle(item.stage)}
+          {/* <View style={item.stage == 'pending'?styles.inProcessCircle:styles.completedCircle}/> */}
           <Text style={styles.statusText}>{item.stage}</Text>
         </View>
         </View>
@@ -234,7 +254,14 @@ const styles = StyleSheet.create({
         marginRight: 5
       },
       inProcessCircle: {
-        backgroundColor: '#FFCD29',
+        backgroundColor: '#E2574C',
+        width: 11,
+        height: 11, 
+        borderRadius: 11/2,
+        marginRight: 5
+      },
+      active: {
+        backgroundColor: '#FFBC00',
         width: 11,
         height: 11, 
         borderRadius: 11/2,
@@ -244,7 +271,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         width: 60,
-        height: 171
+        height: 150,
+        bottom: 0
       },
       meterView: {
         width: '50%',

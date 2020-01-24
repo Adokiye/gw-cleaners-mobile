@@ -28,6 +28,8 @@ import axios from "axios";
 import Toast from "react-native-simple-toast";
 // import stripe from 'tipsi-stripe'
 import Sure from "./Includes/Sure";
+import { stripeCheckoutRedirectHTML } from './Includes/AddCard.js';
+import { WebView } from 'react-native-webview';
 type Props = {};
 import { connect } from "react-redux";
 const mapStateToProps = state => ({
@@ -50,7 +52,8 @@ class reduxAddCard extends Component<Props> {
       expiry_month: "",
       expiry_year: "",
       cvv: "",
-      valid: false
+      valid: false,
+      token: ''
     };
     this.order = this.order.bind(this)
   }
@@ -94,8 +97,8 @@ class reduxAddCard extends Component<Props> {
     } );
     
   };
-  async order() {
-    const { params } = this.props.navigation.state;
+   order(token) {
+   // const { params } = this.props.navigation.state;
     this.setState({ regLoader: true });
     var config = {
       headers: { Authorization: "Bearer " + this.props.token },
@@ -122,7 +125,6 @@ class reduxAddCard extends Component<Props> {
       preferences: this.props.preferences
     };
     console.log(JSON.stringify(bodyParameters));
-    if(this.state.valid){
           axios
       .post(API_URL + "cards", bodyParameters, config)
       .then(response => {
@@ -139,27 +141,20 @@ class reduxAddCard extends Component<Props> {
           console.log(JSON.stringify(error));
         }
       });
-    }else{
-      Toast.show('Invalid Details')
-    }
 
   }
   render() {
     return (
-      <View style={styles.container}>
-        <CreditCardInput onChange={this._onChange.bind(this)} />
-          <TouchableOpacity onPress={this.order.bind(this)} activeOpacity={0.7}>
-            <View style={styles.placeOrderView}>
-              <Text style={styles.placeText}>Place Order</Text>
-              <Image
-                source={require("../assets/images/rightArrow.png")}
-                resizeMode={"contain"}
-                style={{ width: 21, height: 13 }}
-              />
-            </View>
-          </TouchableOpacity>
-        {this.state.regLoader ? <Loader /> : null}
-      </View>
+      <WebView
+      originWhitelist={['*']}
+      source={{ html: stripeCheckoutRedirectHTML() }}
+      onMessage={event => {
+         //   alert(event.nativeEvent.data);
+            console.log(event.nativeEvent.data);
+            this.setState({token: event.nativeEvent.data}, ()=> {this.order(this.state.token)});
+          }}
+   //   onLoadStart={onLoadStart}
+    />
     );
   }
 }

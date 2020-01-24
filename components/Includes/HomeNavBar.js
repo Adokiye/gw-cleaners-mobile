@@ -24,7 +24,9 @@ export default class HomeNavBar extends Component {
           justifyContent: "space-around",
           height: 73,
           backgroundColor: "#fff",
-          elevation: 2
+          elevation: 2,
+          position: 'absolute',
+          bottom: 0
       //    borderTopColor: "#1281dd",
       //    borderTopWidth: 1
         }}
