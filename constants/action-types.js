@@ -1,2 +1,10 @@
 export const setToken = "setToken";
 export const setId = "setId"
+export const setDropoffTime = "setDropoffTime"
+export const setPickupTime = "setPickupTime"
+export const setPreferences = "setPreferences"
+export const setPrice = "setPrice"
+export const setDropoffDate = "setDropoffDate"
+export const setPickupDate = "setPickupDate"
+export const setDropboxId = "setDropboxId"
+export const setDropboxAddress = "setDropboxAddress"

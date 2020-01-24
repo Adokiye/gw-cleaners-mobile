@@ -23,6 +23,13 @@ import { API_URL } from '../root.js';
 import axios from "axios";
 import Toast from 'react-native-simple-toast';
 import SwitchSelector from "react-native-switch-selector";
+import { setPreferences,  setPrice  } from "../actions/index";
+const mapDispatchToProps = dispatch => {
+    return {
+        setPreferences: preferences => dispatch(setPreferences(preferences)),
+        setPrice: price => dispatch(setPrice(price)),
+    };
+  };
 type Props = {};
 import { connect } from "react-redux";
 const mapStateToProps = state => ({
@@ -46,16 +53,16 @@ class reduxPreferences extends Component<Props> {
      softener: '',
      crease: '',
      starch: '',
-     price: ''
+     price: '',
+     hang_dry: '',
+     hypo: '',
+     bleach_white: ''
     };
   }
   componentDidMount(){
   }
   order(){
- //  this.setState({regLoader: true})
-   if(this.state.separateWhites){
-      this.setState({price: 300})
-   }
+      this.props.setPreferences('')
    let preference = '';
    if(this.state.separateWhites){
        preference = preference+ 'Separate Whites, '
@@ -69,7 +76,19 @@ class reduxPreferences extends Component<Props> {
    if(this.state.starch){
        preference = preference+ 'Starch, '
    }
-   this.props.navigation.navigate('MyCards', {order: true, preference: preference, price: this.state.price})
+   if(this.state.hang_dry){
+    preference = preference+ 'Hang Dry, '
+}
+if(this.state.hypo){
+    preference = preference+ 'Hypoallergenic Soap, '
+}
+if(this.state.bleach_white){
+    preference = preference+ 'Bleach White, '
+}
+   if(preference){
+       this.props.setPreferences(preference)
+   }
+   this.props.navigation.navigate('Confirm', {order: true, preference: preference, price: this.state.price})
 }
   render() {
     return (
@@ -149,6 +168,102 @@ class reduxPreferences extends Component<Props> {
             />
             </View>
         </View>
+        <View style={styles.explainedBox}>
+            {/* <Image 
+                source={require('../assets/images/softener.png')}
+                resizeMode={'contain'}
+                style={{width: 38, height: 38}}
+            /> */}
+            <View style={styles.explainedSmallView}>
+                <Text style={styles.explainedTitle}>Hang Dry($1)</Text>
+            </View>
+            <View style={{width: 58}}>
+            <SwitchSelector
+            initial={0}
+            onPress={value => this.setState({ hang_dry: value })}
+            //selectedColor={colors.white}
+            buttonMargin={3}
+            buttonColor={'#1bc47d'}
+            borderColor={'#1bc47d'}
+            backgroundColor={'#f4f4f4'}
+            height={23}
+            borderRadius={12.5}
+            options={options}
+            />
+            </View>
+        </View>
+        <View style={styles.explainedBox}>
+            {/* <Image 
+                source={require('../assets/images/softener.png')}
+                resizeMode={'contain'}
+                style={{width: 38, height: 38}}
+            /> */}
+            <View style={styles.explainedSmallView}>
+                <Text style={styles.explainedTitle}>Hypoallergenic soap($2)</Text>
+            </View>
+            <View style={{width: 58}}>
+            <SwitchSelector
+            initial={0}
+            onPress={value => this.setState({ hypo: value })}
+            //selectedColor={colors.white}
+            buttonMargin={3}
+            buttonColor={'#1bc47d'}
+            borderColor={'#1bc47d'}
+            backgroundColor={'#f4f4f4'}
+            height={23}
+            borderRadius={12.5}
+            options={options}
+            />
+            </View>
+        </View>
+        <View style={styles.explainedBox}>
+            {/* <Image 
+                source={require('../assets/images/softener.png')}
+                resizeMode={'contain'}
+                style={{width: 38, height: 38}}
+            /> */}
+            <View style={styles.explainedSmallView}>
+                <Text style={styles.explainedTitle}>Low dry($2)</Text>
+            </View>
+            <View style={{width: 58}}>
+            <SwitchSelector
+            initial={0}
+            onPress={value => this.setState({ low_dry: value })}
+            //selectedColor={colors.white}
+            buttonMargin={3}
+            buttonColor={'#1bc47d'}
+            borderColor={'#1bc47d'}
+            backgroundColor={'#f4f4f4'}
+            height={23}
+            borderRadius={12.5}
+            options={options}
+            />
+            </View>
+        </View>
+                <View style={styles.explainedBox}>
+            {/* <Image 
+                source={require('../assets/images/softener.png')}
+                resizeMode={'contain'}
+                style={{width: 38, height: 38}}
+            /> */}
+            <View style={styles.explainedSmallView}>
+                <Text style={styles.explainedTitle}>Bleach white</Text>
+            </View>
+            <View style={{width: 58}}>
+            <SwitchSelector
+            initial={0}
+            onPress={value => this.setState({ bleach_white: value })}
+            //selectedColor={colors.white}
+            buttonMargin={3}
+            buttonColor={'#1bc47d'}
+            borderColor={'#1bc47d'}
+            backgroundColor={'#f4f4f4'}
+            height={23}
+            borderRadius={12.5}
+            options={options}
+            />
+            </View>
+        </View>
         <View style={styles.clothTypeView}>
             <Text style={styles.clothTypeText}>DryCleaning</Text>
         </View>
@@ -215,7 +330,7 @@ class reduxPreferences extends Component<Props> {
   }
 }
 const Preferences = connect(
-  mapStateToProps,
+  mapStateToProps, mapDispatchToProps
 )(reduxPreferences);
 export default Preferences;
 const styles = StyleSheet.create({

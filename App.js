@@ -30,8 +30,11 @@ import Notifications from "./components/Notifications"
 import PriceList from "./components/Dashboard/PriceList"
 import Profile from "./components/Dashboard/Profile"
 import MyCards from "./components/MyCards"
+import Schedule from "./components/Schedule"
+import Confirm from "./components/Confirm"
 import AddCard from "./components/AddCard"
 import CardSuccess from "./components/CardSuccess"
+import SelectDropbox from "./components/Dropbox"
 import { createStackNavigator } from "react-navigation";
 import { persistor, store } from "./store/index";
 import { Provider } from "react-redux";
@@ -45,6 +48,12 @@ const RootStack = createStackNavigator({
   },
   Welcome: {
     screen: Welcome
+  },
+  Schedule: {
+    screen:  Schedule
+  },
+  Confirm:{
+    screen: Confirm
   },
   WelcomeAnimation: {
     screen: WelcomeAnimation
@@ -87,6 +96,9 @@ screen: DropBox
  },
  CardSuccess: {
    screen:  CardSuccess
+ },
+ SelectDropbox: {
+   screen: SelectDropbox
  }
 });
 

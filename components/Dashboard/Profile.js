@@ -62,7 +62,7 @@ class reduxProfile extends Component<Props> {
     if(error.code == 'ECONNABORTED'){
       Toast.show('Connection TImeout')
   }else{
-      Toast.show(error.data.message)
+      Toast.show(error.message)
   }
     console.log(error);
   });

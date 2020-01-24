@@ -19,6 +19,7 @@ import {
     RefreshControl
 } from "react-native";
 import HomeNavBar from '../../components/Includes/HomeNavBar'
+var moment = require('moment');
 import Loader from "../Includes/Loader";
 import { API_URL } from '../../root.js';
 import axios from "axios";
@@ -50,6 +51,14 @@ class reduxDashboard extends Component<Props> {
     this.setState({ regLoader: true });
     this.getApiData();
   }
+  componentDidUpdate(){
+    const {params} = this.props.navigation.state;
+    if(params && params.reload ){
+      this.setState({fetch: true, regLoader: true})
+      this.getApiData();
+      params.reload = false;
+    }
+   }
   getApiData(){
     console.log(this.props.token)
     var config = {
@@ -94,6 +103,8 @@ class reduxDashboard extends Component<Props> {
     //    this.setState({regLoader: false})
       if(error.code == 'ECONNABORTED'){
         Toast.show('Connection TImeout')
+    }else if(error.response.status == 404){
+      this.props.navigation.navigate('SignIn')
     }else{
       Toast.show(error.message)
       if(error.message == 'Token is not valid'){
@@ -118,6 +129,11 @@ class reduxDashboard extends Component<Props> {
   }
   componentDidUpdate(){
   //  this.getApiData()
+  const {params} = this.props.navigation.state
+  if(params && params.reload){
+    this.getApiData();
+    params.reload = false;
+  }
   }
   render() {
       let show = '';
@@ -156,7 +172,7 @@ class reduxDashboard extends Component<Props> {
         />
             <View style={styles.welcomeBox}>
                 <Text style={styles.dateText}>
-                   {date}
+                   {moment().format("dddd, MMMM Do YYYY")}
                 </Text>
                 <Text style={styles.hiText}>
                    Hi {this.state.first_name?this.state.first_name:null}
@@ -171,7 +187,7 @@ class reduxDashboard extends Component<Props> {
         </View>
         <ScrollView>
             {show}
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Preferences', {order: true})}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('SelectDropbox',)}>
             <View style={styles.placeOrderView}>
                 <Text style={styles.placeText}>Place an order</Text>
                 <Image 
@@ -256,11 +272,12 @@ const styles = StyleSheet.create({
     },
     numberOrdersView: {
         backgroundColor: '#61D4A4',
-        width: '78.425%',
-        height: '9.36%',
+        width: Width*(70/100),
+        height: Height*(9.36/100),
         elevation: 2,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 6,
     },
     numberOrdersText: {
         color: '#fff',
@@ -275,19 +292,19 @@ const styles = StyleSheet.create({
           fontFamily: 'proBold'
       },
       placeOrderView: {
-          width: 200,
-          height: 33,
+          width: Width*(77.867/100),
+          height: 40,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-around',
-          borderRadius: 4,
+          borderRadius: 5,
           alignSelf: 'center',
           marginTop: 20,
           backgroundColor: '#1bc47d'
       },
       placeText: {
           color: '#fff',
-          fontSize: 11,
+          fontSize: 14,
           fontFamily: 'proBold'
       },
 

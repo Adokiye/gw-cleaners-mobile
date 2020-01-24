@@ -8,11 +8,14 @@ import {
   StatusBar,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  PermissionsAndroid
 } from "react-native";
 //import LoaderModal from './Modals/LoaderModal';
 import DropBoxNavBar from '../../components/Includes/DropBoxNavBar'
 import MapView, { Marker,} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
+import Toast from 'react-native-simple-toast';
 //var SharedPreferences = require("react-native-shared-preferences");
 type Props = {};
 //import { connect } from "react-redux";
@@ -23,6 +26,12 @@ const stopPropagation = thunk => e => {
     e.stopPropagation();
     thunk();
   };
+  const default_region = {
+    latitude:40.679272,
+    longitude: -73.929061,
+    latitudeDelta: 1,
+    longitudeDelta: 1
+};
 const LATITUDE_DELTA = 0.0005;
 const LONGITUDE_DELTA = 0.005;
 class DropBox extends Component<Props> {
@@ -34,10 +43,59 @@ class DropBox extends Component<Props> {
     super(props);
     this.state = {
      regLoader: false,
-     fulton: false
+     fulton: false,
+     latitude: '',
+longitude: '',
+start_location: '',
+currentCoordinate: '',
+region: default_region,
     };
   }
   componentDidMount(){
+    this.requestGeolocationPermission();
+  }
+  async requestGeolocationPermission() {
+    try{
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'GW Cleaners Geolocation Permission',
+          'message': 'GW Cleaners needs access to your current location'
+        }
+      );
+      if(granted === PermissionsAndroid.RESULTS.GRANTED){
+        Geolocation.getCurrentPosition(
+            (position) => {
+              console.log(JSON.stringify(position.coords))
+                  this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    start_location: {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                      },
+                   currentCoordinate: {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latitudeDelta: LATITUDE_DELTA,
+                        longitudeDelta: LONGITUDE_DELTA
+                    } 
+                  } )
+            },
+            (error) => console.log(error.message),
+            {enableHighAccuracy: true, 
+              //timeout: 10000, 
+              //maximumAge: 3000
+            },
+          );
+           
+      }else{
+        Toast.show('Geolocation permission denied')
+        console.log("Geolocation permission denied")
+      }
+    }catch(err){
+      console.warn(err)
+    }
   }
   handleMarkerPress(){
       this.setState({fulton: false})
@@ -54,9 +112,9 @@ class DropBox extends Component<Props> {
         followsUserLocation={true}
         showsUserLocation={true}
         showsMyLocationButton={true}
-          region={{
-            latitude: 40.679272,               //this.state.latitude?this.state.latitude:default_region.latitude,
-        longitude: -73.929061,                    //this.state.longitude?this.state.longitude:default_region.longitude,
+        region={{
+            latitude: this.state.latitude?this.state.latitude:default_region.latitude,
+        longitude: this.state.longitude?this.state.longitude:default_region.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
           }}

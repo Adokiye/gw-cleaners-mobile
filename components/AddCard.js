@@ -1,25 +1,35 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   Platform,
   StyleSheet,
   Text,
-  Image,
-  Dimensions,
-  StatusBar,
   View,
-  TouchableOpacity,
+  Image,
+  StatusBar,
+  NetInfo,
+  Animated,
+  ImageBackground,
+  TouchableWithoutFeedback,
   ScrollView,
-  TextInput
+  Dimensions,
+  FlatList,
+  Alert,
+  TouchableOpacity,
+  RefreshControl
 } from "react-native";
+import Loader from "./Includes/Loader";
+import {
+  CreditCardInput,
+  LiteCreditCardInput
+} from "react-native-credit-card-input";
+import { API_URL } from "../root.js";
+import axios from "axios";
+import Toast from "react-native-simple-toast";
+// import stripe from 'tipsi-stripe'
+import Sure from "./Includes/Sure";
 type Props = {};
 import { connect } from "react-redux";
-import Loader from "./Includes/Loader";
-import { API_URL, APPLICATION_ID, LOCATION_ID } from '../root.js';
-import axios from "axios";
-import Toast from 'react-native-simple-toast';
-import {
-  SQIPCardEntry,
-} from 'react-native-square-in-app-payments';
 const mapStateToProps = state => ({
   ...state
 });
@@ -28,376 +38,193 @@ class reduxAddCard extends Component<Props> {
     header: null,
     drawerLockMode: "locked-closed"
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
-     regLoader: false,
-     cvv: '',
-     cvv_text_input: false,
-     number: '',
-     card_number_text_input: false,
-     month: '',
-     month_text_input: false,
-     year: '',
-     year_text_input: false
+      regLoader: false,
+      cards: [],
+      sure: false,
+      card_id: "",
+      card_no: "",
+      expiry_month: "",
+      expiry_year: "",
+      cvv: "",
+      valid: false
     };
-    this.onStartCardEntry = this.onStartCardEntry.bind(this);
-    this.onCardNonceRequestSuccess = this.onCardNonceRequestSuccess.bind(this);
+    this.order = this.order.bind(this)
   }
-  componentDidMount(){
-    Toast.show('Please wait a moment, you\'ll soon be redirected');
-    this.onStartCardEntry();
+  componentDidMount() {
+    const { params } = this.props.navigation.state;
+    console.log(params);
   }
-    /**
-   * Callback when the card entry is closed after call 'SQIPCardEntry.completeCardEntry'
-   */
-  onCardEntryComplete() {
-    const {params} = this.props.navigation.state;
-    Toast.show('Card  Added Successfully')
-    if(params.order){
-      this.props.navigation.navigate('OrderProcessed')
-    }else{
-      this.props.navigation.navigate('Dashboard')
-    }
-    
-  }
-    /**
-   * Callback when successfully get the card nonce details for processig
-   * card entry is still open and waiting for processing card nonce details
-   * @param {*} cardDetails
-   */
-  async onCardNonceRequestSuccess(cardDetails) {
-    try {
-      // take payment with the card details
-      // await chargeCard(cardDetails);
+  _onChange = form => {
 
-      const {params} = this.props.navigation.state;
-      console.log(JSON.stringify(params)+"addcard")
-      if(params.order){ 
-             var config = {
-        headers: {'Authorization': "Bearer " + this.props.token},
-        timeout: 20000
+    let expiry_month,
+      expiry_year,
+      slash_loc = "";
+    if (form.status.expiry == "valid") {
+      for (let i = 0; i < form.values.expiry.length; i++) {
+        if (form.values.expiry[i] == "/") {
+          slash_loc = i;
+        }
+        if (slash_loc) {
+          if (form.values.expiry[i] != "/") {
+            expiry_year += form.values.expiry[i];
+          }
+        } else {
+          if (form.values.expiry[i] != "/") {
+            expiry_month += form.values.expiry[i];
+          }
+        }
+      }
+    } 
+       console.log(JSON.stringify(form.values))
+    this.setState({
+      valid: form.valid,
+      card_no: form.values.number,
+      expiry_month: expiry_month,
+      expiry_year: expiry_year,
+      cvv: form.values.cvv
+    }, ()=>{
+      if(this.state.valid){
+        console.log("kks")
+        this.order()
+      }
+    } );
+    
+  };
+  async order() {
+    const { params } = this.props.navigation.state;
+    this.setState({ regLoader: true });
+    var config = {
+      headers: { Authorization: "Bearer " + this.props.token },
+      timeout: 20000
     };
-      var bodyParameters = {
-        nonce: cardDetails.nonce,
-        user_id: this.props.id,
-        price: params.price||null,
-        preference: params.preference||null
-      };
-      await  axios
-      .post(API_URL+"cards", bodyParameters, config)
+    const params = {
+      // mandatory
+      number: this.state.card_no,
+      expMonth: this.state.expiry_month,
+      expYear: this.state.expiry_year,
+      cvc: this.state.cvv,
+    }
+    // const token = await stripe.createTokenWithCard(params);
+    console.log(JSON.stringify(token))
+    var bodyParameters = {
+      user_id: this.props.id,
+      token: token,
+      dropoff_date: this.props.dropoffDate,
+      pickup_date: this.props.pickupDate,
+      dropoff_time: this.props.dropoffTime,
+      pickup_time: this.props.pickupTime,
+      dropbox_id: this.props.dropboxId,
+      dropbox_adress: this.props.dropbox_address,
+      preferences: this.props.preferences
+    };
+    console.log(JSON.stringify(bodyParameters));
+    if(this.state.valid){
+          axios
+      .post(API_URL + "cards", bodyParameters, config)
       .then(response => {
         console.log(response);
-              SQIPCardEntry.completeCardEntry(
-        this.onCardEntryComplete(),
-      );
-          })
-          .catch(error => {
-            console.log(error);
-            this.setState({ regLoader: false }); 
-            if (error) {
-              Toast.show(error.response.data.message);
-          //    this.props.navigation.navigate('Dashboard')
-              console.log(JSON.stringify(error));
-            }
-          });
-      }else{
-        await SQIPCardEntry.completeCardEntry(
-          this.onCardEntryComplete(),
-        );
-      }
-
-      // payment finished successfully
-      // you must call this method to close card entry
-
-    } catch (ex) {
-      // payment failed to complete due to error
-      // notify card entry to show processing error
-      Toast.show(ex.message);
-      await SQIPCardEntry.showCardNonceProcessingError(ex.message);
+        Toast.show("Success");
+        this.setState({ regLoader: false });
+        this.props.navigation.navigate("OrderProcessed");
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ regLoader: false });
+        if (error) {
+          Toast.show(error.message);
+          console.log(JSON.stringify(error));
+        }
+      });
+    }else{
+      Toast.show('Invalid Details')
     }
-  }
-    /**
-   * Callback when card entry is cancelled and UI is closed
-   */
-  onCardEntryCancel() {
-   Toast.show('Cancelled')
-  // this.props.navigation.navigate('Dashboard')
-  }
-  async onStartCardEntry() {
-    const cardEntryConfig = {
-      collectPostalCode: true,
-    };
-    await SQIPCardEntry.startCardEntryFlow(
-      cardEntryConfig,
-      this.onCardNonceRequestSuccess,
-      this.onCardEntryCancel,
-    );
+
   }
   render() {
     return (
-        <View style={styles.container}>
-        <View style={styles.headerView}>
-        <Image
-        source={require('../assets/images/topAbstract.png')} 
-            resizeMode={'contain'}
-            style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
-        />
-        <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
-        <Image 
-                source={require('../assets/images/back.png')}
-                resizeMode={'contain'}
-                style={{width: 25, height: 25, }}
-            /></TouchableOpacity>
-            <View style={styles.welcomeBox}>
-                <Text style={styles.hiText}>
-                   Add Card
-                </Text>        
+      <View style={styles.container}>
+        <CreditCardInput onChange={this._onChange.bind(this)} />
+          <TouchableOpacity onPress={this.order.bind(this)} activeOpacity={0.7}>
+            <View style={styles.placeOrderView}>
+              <Text style={styles.placeText}>Place Order</Text>
+              <Image
+                source={require("../assets/images/rightArrow.png")}
+                resizeMode={"contain"}
+                style={{ width: 21, height: 13 }}
+              />
             </View>
-        </View>
-        {/* <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={styles.fullNameView}>
-       <Text style={styles.fullNameText}>
-       Card Number
-       </Text>
-       </View>
-       <View style={this.state.card_number_text_input?styles.focusedTextFieldView:styles.textFieldView}>
-       <TextInput
-              underlineColorAndroid={"transparent"}
-              allowFontScaling={false}
-              autoFocus={true}
-              placeholder="Enter Card  Number"
-              returnKeyType={'next'}
-              keyboardType={'numeric'}
-              onChangeText={text => {
-                    this.setState({ number: text })
-                    if(text && text.length == 16){
-                      this.monthTextInput.focus()
-                    }
-                    }}
-              onSubmitEditing={()=> {
-                  if(this.state.number && this.state.number == 16){
-                      this.monthTextInput.focus();}
-                      }
-                  }
-        //      ref={ (input) => {this.zipTextInput = input }}
-              blurOnSubmit={false}
-              onFocus={()=> this.setState({card_number_text_input: true})}
-              onBlur={()=> this.setState({card_number_text_input: false})}
-              placeholderTextColor="#B9B2B2"
-              style={styles.textFieldInput}
-            />
-       </View>
-       <View style={styles.numberAndDateView}>
-       <View style={this.state.month_text_input?styles.focusedSmallTextFieldView:styles.smallTextFieldView}>
-       <TextInput
-              underlineColorAndroid={"transparent"}
-              allowFontScaling={false}
-              placeholder="mm"
-              returnKeyType={'next'}
-              keyboardType={'numeric'}
-              onChangeText={text => {
-                    this.setState({ month: text })
-                    if(text && text.length == 2){
-                      this.yearTextInput.focus()
-                    }
-                    }}
-              onSubmitEditing={()=> {
-                  if(this.state.month && this.state.month == 2){
-                      this.yearTextInput.focus();}
-                      }
-                  }
-        //      ref={ (input) => {this.zipTextInput = input }}
-              blurOnSubmit={false}
-              onFocus={()=> this.setState({month_text_input: true})}
-              onBlur={()=> this.setState({month_text_input: false})}
-              placeholderTextColor="#B9B2B2"
-              style={styles.textFieldInput}
-            />
-       </View>
-       <View style={this.state.year_text_input?styles.focusedSmallTextFieldView:styles.smallTextFieldView}>
-       <TextInput
-              underlineColorAndroid={"transparent"}
-              allowFontScaling={false}
-              placeholder="yy"
-              returnKeyType={'next'}
-              keyboardType={'numeric'}
-              onChangeText={text => {
-                    this.setState({ year: text })
-                    if(text && text.length == 2){
-                      this.cvvTextInput.focus()
-                    }
-                    }}
-              onSubmitEditing={()=> {
-                  if(this.state.year && this.state.year == 2){
-                      this.cvvTextInput.focus();}
-                      }
-                  }
-        //      ref={ (input) => {this.zipTextInput = input }}
-              blurOnSubmit={false}
-              onFocus={()=> this.setState({year_text_input: true})}
-              onBlur={()=> this.setState({year_text_input: false})}
-              placeholderTextColor="#B9B2B2"
-              style={styles.textFieldInput}
-            />
-       </View>
-       <View style={this.state.cvv_text_input?styles.focusedSmallTextFieldView:styles.smallTextFieldView}>
-       <TextInput
-              underlineColorAndroid={"transparent"}
-              allowFontScaling={false}
-              placeholder="cvv"
-              returnKeyType={'next'}
-              keyboardType={'numeric'}
-              onChangeText={text => {
-                    this.setState({ cvv: text })
-                    if(text && text.length == 2){
-                      this.cvvTextInput.blur()
-                    } 
-                    }}
-        //      ref={ (input) => {this.zipTextInput = input }}
-              blurOnSubmit={false}
-              onFocus={()=> this.setState({cvv_text_input: true})}
-              onBlur={()=> this.setState({cvv_text_input: false})}
-              placeholderTextColor="#B9B2B2"
-              style={styles.textFieldInput}
-            />
-       </View>
-       </View>
-       <TouchableOpacity onPress={()=> this.props.navigation.navigate('CardSuccess')}>
-       <View style={styles.continueView}>
-          <Text style={styles.continueText}>
-          ADD CARD
-          </Text>
-        </View></TouchableOpacity>
-        </ScrollView> */}
-        </View>
+          </TouchableOpacity>
+        {this.state.regLoader ? <Loader /> : null}
+      </View>
     );
   }
 }
-const AddCard = connect(
-  mapStateToProps,
-)(reduxAddCard);
+const AddCard = connect(mapStateToProps)(reduxAddCard);
 const dimensions = Dimensions.get("window");
 const Width = dimensions.width;
 export default AddCard;
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        backgroundColor: '#fff',
-        alignItems: 'center'
-      },
-      headerView: {
-          width: '100%',
-          height: 100,
-          backgroundColor: '#1bc47d',
-          flexDirection: 'row',
-          paddingLeft: 10,
-          paddingRight: 10,
-          alignItems: 'center',
-          marginBottom: 15
-      },
-      welcomeBox: {
-          flexDirection: 'column',
-          marginLeft: 13
-      },
-      dateText: {
-          fontFamily: 'proRegular',
-          fontSize: 13,
-          color: '#fff'
-      },
-      hiText: {
-          color: '#fff',
-          fontFamily: 'proBold',
-          fontSize: 26
-      },
-      fullNameView: {
-        width: '87.5%', 
-        alignSelf: 'center',
-        marginTop: 20,
-        marginBottom: 7
-    },
-    fullNameText: {
-        color: '#000',
-         fontFamily: 'proBold',
-         fontSize: 10
-    },
-       numberAndDateView: {
-         width: '87.5%',
-         flexDirection: 'row',
-         justifyContent: 'space-between',
-         alignSelf: 'center',
-         marginBottom: 23
-       },
-       textFieldView: {
-        width: '87.5%',
-        height: 50,
-        borderRadius: 3,
-        borderColor: '#fefefe',
-        borderWidth: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 23,
-        alignSelf: 'center'
-    },
-    focusedTextFieldView: {
-      width: '87.5%',
-      height: 50,
-      borderRadius: 3,
-      borderColor: '#1bc47d',
-      borderWidth: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 23,
-      alignSelf: 'center'
-  },  
-  smallTextFieldView: {
-    width: '29%',
-    height: 50,
-    borderRadius: 3,
-    borderColor: '#fefefe',
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 23,
-    alignSelf: 'center'
-},
-focusedSmallTextFieldView: {
-  width: '29%',
-  height: 50,
-  borderRadius: 3,
-  borderColor: '#1bc47d',
-  borderWidth: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginBottom: 23,
-  alignSelf: 'center'
-},  
-textFieldInput: {
-  width: '100%',
-  height: 45,
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#000',
-  fontSize: 14,
-   fontFamily: "proRegular",
-//   paddingLeft: 15
-},
-continueView:{
-  width:Width*(87.5/100),
-  height:42,
-  backgroundColor:'#1BC47D',
-  alignItems:'center',
-  justifyContent:'center',
-  marginTop:30,
-  alignSelf:'center',
-  borderRadius:3,
-  marginBottom: 10
-},
-continueText:{
-  color:'#fff',
-  fontFamily:'proBold',
-  fontSize:13
-}
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center"
+  },
+  headerView: {
+    width: "100%",
+    height: 100,
+    backgroundColor: "#1bc47d",
+    flexDirection: "row",
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignItems: "center",
+    marginBottom: 15
+  },
+  welcomeBox: {
+    flexDirection: "column",
+    marginLeft: 13
+  },
+  dateText: {
+    fontFamily: "proRegular",
+    fontSize: 13,
+    color: "#fff"
+  },
+  hiText: {
+    color: "#fff",
+    fontFamily: "proBold",
+    fontSize: 26
+  },
+  cardView: {
+    alignSelf: "center",
+    width: Width * (91.46 / 100),
+    height: 159,
+    borderRadius: 4,
+    backgroundColor: "#fff",
+    paddingLeft: 15,
+    paddingTop: 20,
+    paddingBottom: 20,
+    justifyContent: "space-between",
+    elevation: 2,
+    flexDirection: "column",
+    marginBottom: 30
+  },
+  cardLastDigitsView: {
+    width: "81.3%",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  cardLastDigits: {
+    color: "#000",
+    fontSize: 12,
+    fontFamily: "proBold"
+  },
+  dateText: {
+    fontFamily: "proRegular",
+    fontSize: 10,
+    color: "#000"
+  }
 });

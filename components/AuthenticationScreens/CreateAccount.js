@@ -65,7 +65,7 @@ class reduxCreateAccount extends Component<Props> {
     if (regg.test(this.state.email) === false) {
      Toast.show('Invalid Email')
     } else if (this.state.password.length < 1 || this.state.address.length < 1 || this.state.email.length < 1
-      || this.state.first_name < 1 || this.state.last_name < 1 || this.state.zip < 1 || this.state.number < 1){
+      || this.state.first_name.length < 1 || this.state.last_name.length < 1 || this.state.zip < 1 || this.state.number.length < 1){
       Toast.show('Please fill all required fields')
     } else if (this.state.number.length != 10) {
       Toast.show('Invalid Mobile Number')
@@ -287,7 +287,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({zip_text_input: true})}
               onSubmitEditing={this.createAccount.bind(this)}
               onSubmitEditing={()=> {
-                  if(this.state.zip && this.state.zip ==  5){
+                  if(this.state.zip && this.state.zip.length ==  5){
                     this.createAccount.bind(this);}
                       }
                   }

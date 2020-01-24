@@ -29,7 +29,7 @@ class OrderProcessed extends Component<Props> {
   }
   componentDidMount(){
     setTimeout(() => {
-        this.props.navigation.navigate('Dashboard');
+        this.props.navigation.navigate('Dashboard', {reload: true});
       }, 1000);
   }
   render() {
