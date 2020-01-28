@@ -116,15 +116,19 @@ class reduxDashboard extends Component<Props> {
     })
     .catch(error => {
         this.setState({regLoader: false})
+        console.log(error);
       if(error.code == 'ECONNABORTED'){
         Toast.show('Connection TImeout')
     }else{
         Toast.show(error.message)
-        if(error.message == 'Token is not valid'){
+        if(error.response.data.message == 'Token is not valid'){
           this.props.navigation.navigate('SignIn')
         }
+        // if(error.message == 'Token is not valid'){
+        //   this.props.navigation.navigate('SignIn')
+        // }
     }
-      console.log(error);
+      
     });
   }
   componentDidUpdate(){

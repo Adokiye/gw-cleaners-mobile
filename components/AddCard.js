@@ -35,6 +35,8 @@ import { connect } from "react-redux";
 const mapStateToProps = state => ({
   ...state
 });
+const dimensions = Dimensions.get("window");
+const Width = dimensions.width;const Height = dimensions.height;
 class reduxAddCard extends Component<Props> {
   static navigationOptions = {
     header: null,
@@ -44,7 +46,7 @@ class reduxAddCard extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      regLoader: false,
+      regLoader: true,
       cards: [],
       sure: false,
       card_id: "",
@@ -56,6 +58,9 @@ class reduxAddCard extends Component<Props> {
       token: ''
     };
     this.order = this.order.bind(this)
+  }
+  hideSpinner() {
+    this.setState({ regLoader: false });
   }
   componentDidMount() {
     const { params } = this.props.navigation.state;
@@ -145,22 +150,34 @@ class reduxAddCard extends Component<Props> {
   }
   render() {
     return (
+      <View style={{ flex: 1 }}>
       <WebView
       originWhitelist={['*']}
+      onLoad={this.hideSpinner.bind(this)}
       source={{ html: stripeCheckoutRedirectHTML() }}
       onMessage={event => {
          //   alert(event.nativeEvent.data);
             console.log(event.nativeEvent.data);
             this.setState({token: event.nativeEvent.data}, ()=> {this.order(this.state.token)});
           }}
+          scalesPageToFit={true}
+          javaScriptEnabled={true}
+            domStorageEnabled={true} 
+        style={{ flex: 1 }}
    //   onLoadStart={onLoadStart}
     />
+            {this.state.regLoader && (
+          <ActivityIndicator
+            style={{ position: "absolute", top: Height / 2, left: Width / 2 }}
+            size="large"
+          />
+        )}
+    </View>
     );
   }
 }
 const AddCard = connect(mapStateToProps)(reduxAddCard);
-const dimensions = Dimensions.get("window");
-const Width = dimensions.width;
+
 export default AddCard;
 const styles = StyleSheet.create({
   container: {

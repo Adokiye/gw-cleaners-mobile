@@ -28,7 +28,7 @@ class reduxSplash extends Component<Props> {
   }
   componentDidMount(){
     if(this.props.token){
-      this.props.navigation.navigate('Welcome')
+      this.props.navigation.navigate('Dashboard')
     }else{
      this.props.navigation.navigate('Welcome')
     }
