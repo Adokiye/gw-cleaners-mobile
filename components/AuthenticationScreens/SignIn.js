@@ -14,14 +14,15 @@ import {
   Alert,
   Dimensions,
   TouchableOpacity,
-  AsyncStorage
 } from "react-native";
 import Toast from 'react-native-simple-toast';
 import { API_URL } from '../../root.js';
 import HideWithKeyboard from "react-native-hide-with-keyboard";
 import axios from "axios";
 import Loader from "../Includes/Loader";
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from "react-redux";
+import firebase from "react-native-firebase";
 import { setToken, setId,  } from "../../actions/index";
 const mapStateToProps = state => ({
   ...state
@@ -50,13 +51,58 @@ class reduxSignIn extends Component<Props> {
      email: '',
      password: '',
      error: false,
-     error_message: ''
+     error_message: '',
+     fcmToken: ''
     };
   }
   // 08029694883
-  componentDidMount(){
+  async componentDidMount(){
+    this.checkPermission();
   }
-  signIn(){
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+        console.log("enabled")
+        this.getToken();
+    } else {
+      console.log("unenabled")
+        this.requestPermission();
+    }
+  }
+  
+    //3
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+        fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+            this.setState({fcmToken});
+            console.log(fcmToken);
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+        }else{
+          console.log("\n"+"\n"+"no token"+"\n"+"\n")
+        }
+    }else{
+      console.log("here")
+      this.setState({fcmToken});
+      console.log(fcmToken);
+    }
+  }
+  
+    //2
+  async requestPermission() {
+    try {
+        await firebase.messaging().requestPermission();
+        console.log("admin authorised")
+        // User has authorised
+        this.getToken();
+    } catch (error) {
+        // User has rejected permissions
+        console.log('permission rejected');
+    }
+  }
+ signIn(){
     let regg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (regg.test(this.state.email) === false) {
      Toast.show('Incorrect Credentials')
@@ -66,20 +112,22 @@ class reduxSignIn extends Component<Props> {
       this.setState({ regLoader: true });
       var bodyParameters = {
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        device_token: this.state.fcmToken
       };
       Toast.show(API_URL);
       axios
       .post(API_URL+"login", bodyParameters, {
         timeout: 20000
       })
-      .then(response => {
+      .then( response => {
         console.log(response);
         let id = response.data.data._id;
         let token = response.data.token;
         this.props.setToken(token);
         this.props.setId(id);
         this.setState({ regLoader: false });
+  //      await AsyncStorage.setItem('user_stats', JSON.stringify(user_stats));
         Toast.show('Sign in successful');
         this.props.navigation.navigate("Dashboard", {});
           })

@@ -14,16 +14,17 @@ import {
   Alert,
   Dimensions,
   TouchableOpacity,
-  AsyncStorage
 } from "react-native";
 type Props = {};
 import Toast from 'react-native-simple-toast';
 import { API_URL } from '../../root.js';
 import HideWithKeyboard from "react-native-hide-with-keyboard";
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from "axios";
 import Loader from "../Includes/Loader";
 import { connect } from "react-redux";
 import { setToken, setId,  } from "../../actions/index";
+import firebase from "react-native-firebase";
 const mapStateToProps = state => ({
   ...state
 });
@@ -56,9 +57,54 @@ class reduxCreateAccount extends Component<Props> {
      zip: '',
      email: '',
      password: '',
+     fcmToken: ''
     };
   }
-  componentDidMount(){
+  async componentDidMount(){
+    this.checkPermission();
+  }
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+        console.log("enabled")
+        this.getToken();
+    } else {
+      console.log("unenabled")
+        this.requestPermission();
+    }
+  }
+  
+    //3
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+        fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+            this.setState({fcmToken});
+            console.log(fcmToken);
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+        }else{
+          console.log("\n"+"\n"+"no token"+"\n"+"\n")
+        }
+    }else{
+      console.log("here")
+      this.setState({fcmToken});
+      console.log(fcmToken);
+    }
+  }
+  
+    //2
+  async requestPermission() {
+    try {
+        await firebase.messaging().requestPermission();
+        console.log("admin authorised")
+        // User has authorised
+        this.getToken();
+    } catch (error) {
+        // User has rejected permissions
+        console.log('permission rejected');
+    }
   }
   createAccount(){
     let regg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -82,7 +128,8 @@ class reduxCreateAccount extends Component<Props> {
         zipcode: this.state.zip,
         mobile_number: this.state.number,
         first_name: this.state.first_name,
-        last_name: this.state.last_name
+        last_name: this.state.last_name,
+        device_token: this.state.fcmToken
       }
       axios
       .post(API_URL+"users", bodyParameters, {

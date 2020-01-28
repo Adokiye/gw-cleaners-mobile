@@ -3,6 +3,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -10,6 +13,27 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+                    <meta-data
+    android:name="com.google.firebase.messaging.default_notification_icon"
+    android:resource="@drawable/ic_stat_gw_cleaners_new" />
+    <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+    android:resource="@color/google_green" />
+      <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+    <intent-filter>
+      <action android:name="com.google.firebase.MESSAGING_EVENT" />
+    </intent-filter>
+  </service>
+  <!--service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
+    <intent-filter>
+      <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+    </intent-filter>
+  </service-->
+  <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
+  <meta-data
+    android:name="com.google.firebase.messaging.default_notification_icon"
+    android:resource="@drawable/ic_stat_gw_cleaners_new" />
+    <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+    android:resource="@color/google_green" />
          <meta-data
      android:name="com.google.android.geo.API_KEY"
      android:value="AIzaSyBRWIXQCbRpusFNiQitxMJy_89gguGk66w"/>
