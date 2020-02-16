@@ -41,6 +41,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import {SQIPCore} from 'react-native-square-in-app-payments';
 import {APPLICATION_ID} from './root.js'
 import firebase from "react-native-firebase";
+import type { Notification, NotificationOpen } from "react-native-firebase";
 import AsyncStorage from '@react-native-community/async-storage';
 type Props = {};
 const RootStack = createStackNavigator({
