@@ -28,9 +28,13 @@ class reduxSplash extends Component<Props> {
   }
   componentDidMount(){
     if(this.props.token){
-      this.props.navigation.navigate('Dashboard')
+      setTimeout(() => {
+        this.props.navigation.navigate('Dashboard');
+      }, 4000);
     }else{
-     this.props.navigation.navigate('Welcome')
+      setTimeout(() => {
+        this.props.navigation.navigate('Welcome');
+      }, 4000);
     }
    }
   render() {
@@ -38,7 +42,7 @@ class reduxSplash extends Component<Props> {
         <View style={styles.container}>
               <View style={{
         width: '100%',
-        height: '70%',
+        height: '100%',
         position: 'absolute',
         top: '10%'
       }}>

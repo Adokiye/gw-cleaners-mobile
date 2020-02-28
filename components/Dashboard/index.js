@@ -163,7 +163,7 @@ class reduxDashboard extends Component<Props> {
        show = <View style={styles.insideGreenBox}>
                <View style={{
         width: '100%',
-        height: '60%',
+        height: '100%',
         position: 'absolute'      }}>
               <Image
           source={require("../../assets/images/washitSplashBack.png")}
@@ -192,7 +192,7 @@ class reduxDashboard extends Component<Props> {
             <Image 
                 source={require('../../assets/images/notification.png')}
                 resizeMode={'contain'}
-                style={{width: 25, height: 25}}
+                style={{width: 30, height: 30}}
             /></TouchableOpacity>
         </View>
         <ScrollView>

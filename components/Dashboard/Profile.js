@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
       hiText: {
           color: '#fff',
           fontFamily: 'mont-semi',
-          fontSize: 26
+          fontSize: 20
       },
       profileImageView: {
           width: 90,

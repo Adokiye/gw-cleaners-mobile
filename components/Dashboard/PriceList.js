@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
       hiText: {
           color: '#fff',
           fontFamily: 'mont-semi',
-          fontSize: 26
+          fontSize: 20
       },
       mainPriceView: {
           marginBottom: 15,
