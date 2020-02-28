@@ -194,7 +194,7 @@ class reduxMyCards extends Component<Props> {
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={(item, index) => `list-item-${index}`}
+            keyExtractor={(item, index) => `list-item-{'\u20A6'}{index}`}
           />
         );
       } else {
@@ -224,7 +224,7 @@ class reduxMyCards extends Component<Props> {
                 </Text>
               </View>
             )}
-            keyExtractor={(item, index) => `list-item-${index}`}
+            keyExtractor={(item, index) => `list-item-{'\u20A6'}{index}`}
           />
         );
       }
@@ -234,17 +234,11 @@ class reduxMyCards extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.headerView}>
-          <Image
-            source={require("../assets/images/topAbstract.png")}
-            resizeMode={"contain"}
-            style={{
-              position: "absolute",
-              width: 187,
-              height: 50,
-              top: 0,
-              right: 0
-            }}
-          />
+        <Image
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+        />
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Image
               source={require("../assets/images/back.png")}

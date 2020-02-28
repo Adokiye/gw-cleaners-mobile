@@ -105,13 +105,6 @@ class reduxSelectDropbox extends Component<Props> {
               this.props.setDropboxAddress(item.address);
               this.props.navigation.navigate('Schedule',)}}>
         <View style={styles.orderView}>
-        <View style={styles.rightImageView}>
-          <Image
-            source={require('../assets/images/sideOrder.png')}
-            style={{flex: 1}}
-            resizeMode={'contain'}
-           />
-        </View>
         <Text style={styles.orderDetailsHeader}>
         {item.dropbox_id}
         </Text>
@@ -127,9 +120,9 @@ class reduxSelectDropbox extends Component<Props> {
         <View style={styles.container}>
         <View style={styles.headerView}>
         <Image
-        source={require('../assets/images/topAbstract.png')} 
-            resizeMode={'contain'}
-            style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
         />
         <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
         <Image 

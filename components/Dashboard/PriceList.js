@@ -36,7 +36,7 @@ class PriceList extends Component<Props> {
         <View style={styles.container}>
         <View style={styles.headerView}>
         <Image
-          source={require("../assets/images/washitBack.png")}
+          source={require("../../assets/images/washitBack.png")}
           resizeMode="cover"
           style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
         />

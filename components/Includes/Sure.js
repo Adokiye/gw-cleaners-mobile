@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         top: 0,
       },
       loadingText: {
-        fontFamily: 'Gilroy-Regular',
+        fontFamily: 'mont-reg',
         fontSize: 15,
         color: 'black',
       },

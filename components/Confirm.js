@@ -171,17 +171,11 @@ class reduxConfirm extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.headerView}>
-          <Image
-            source={require("../assets/images/topAbstract.png")}
-            resizeMode={"contain"}
-            style={{
-              position: "absolute",
-              width: 187,
-              height: 50,
-              top: 0,
-              right: 0
-            }}
-          />
+        <Image
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+        />
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Image
               source={require("../assets/images/back.png")}
@@ -216,10 +210,10 @@ class reduxConfirm extends Component<Props> {
           <Text style={styles.clothTypeInsideText}>
             {this.props.dropboxAddress}
           </Text>
-              <Text style={styles.clothTypeText}>Preferences</Text>
+              {/* <Text style={styles.clothTypeText}>Preferences</Text>
               <Text style={styles.clothTypeInsideText}>
                 {this.props.preferences}
-              </Text>
+              </Text> */}
               </View>
         </ScrollView>
         <View style={styles.houseBottomButton}>

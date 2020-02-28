@@ -36,9 +36,21 @@ class reduxSplash extends Component<Props> {
   render() {
     return (
         <View style={styles.container}>
+              <View style={{
+        width: '100%',
+        height: '70%',
+        position: 'absolute',
+        top: '10%'
+      }}>
+              <Image
+          source={require("../assets/images/washitSplashBack.png")}
+          resizeMode="cover"
+          style={{flex: 1}}
+        />
+      </View>
        <View style={styles.welcomeBox}>
            <Image 
-               source={require('../assets/images/logo.png')}
+               source={require('../assets/images/washitSplashLogo.png')}
                style={{width: 200, height: 200}}
                resizeMode={'contain'}
            />
@@ -56,7 +68,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor: '#fff',
+        backgroundColor: '#769CF1',
         justifyContent: 'center'
       },
       welcomeBox: {

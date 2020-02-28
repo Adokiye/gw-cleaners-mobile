@@ -121,7 +121,7 @@ class reduxSchedule extends Component<Props> {
     } else if (this.state.datePickup <= this.state.dateDropoff) {
       Toast.show("Pick a pickup date is is at least 24 hrs from dropoff date");
     } else {
-      this.props.navigation.navigate("Preferences");
+      this.props.navigation.navigate("Confirm", {order: true});
     }
   }
   render() {

@@ -106,17 +106,11 @@ class reduxNotifications extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.headerView}>
-          <Image
-            source={require("../assets/images/topAbstract.png")}
-            resizeMode={"contain"}
-            style={{
-              position: "absolute",
-              width: 187,
-              height: 50,
-              top: 0,
-              right: 0
-            }}
-          />
+        <Image
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+        />
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}
             hitSlop={{ left: 2, top: 2, right: 2, bottom: 2 }}
