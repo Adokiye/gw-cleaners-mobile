@@ -164,8 +164,8 @@ const styles = StyleSheet.create({
   },
   hiText: {
     color: "#fff",
-    fontFamily: "mont-bold",
-    fontSize: 26
+    fontFamily: "mont-semi",
+    fontSize: 20
   },
   notificationBox: {
     width: Width * (84.267 / 100),
@@ -191,6 +191,6 @@ const styles = StyleSheet.create({
   timeText: {
     color: "#AFACAC",
     fontSize: 7,
-    fontFamily: "mont-bold"
+    fontFamily: "mont-semi"
   }
 });

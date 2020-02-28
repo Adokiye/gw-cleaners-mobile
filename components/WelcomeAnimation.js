@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
           alignItems: 'center'
       },
       welcomeText: {
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 44,
           color: '#fff'
       }

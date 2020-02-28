@@ -42,7 +42,7 @@ class PriceList extends Component<Props> {
         />
             <View style={styles.welcomeBox}>
                 <Text style={styles.hiText}>
-                   Pricelist
+                   How much we charge?
                 </Text>
             </View>
             <Image 
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 26
       },
       mainPriceView: {
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
       }, 
       priceText: {
           color: '#fff',
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 14
       } 
 });

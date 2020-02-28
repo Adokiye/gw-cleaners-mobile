@@ -128,17 +128,6 @@ class reduxSchedule extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.headerView}>
-          <Image
-            source={require("../assets/images/topAbstract.png")}
-            resizeMode={"contain"}
-            style={{
-              position: "absolute",
-              width: 187,
-              height: 50,
-              top: 0,
-              right: 0
-            }}
-          />
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Image
               source={require("../assets/images/back.png")}
@@ -147,7 +136,7 @@ class reduxSchedule extends Component<Props> {
             />
           </TouchableOpacity>
           <View style={styles.welcomeBox}>
-            <Text style={styles.hiText}>Schedule</Text>
+            <Text style={styles.hiText}>What Day?</Text>
           </View>
           <Image
             source={require("../assets/images/plus.png")}
@@ -699,8 +688,8 @@ const styles = StyleSheet.create({
   },
   hiText: {
     color: "#fff",
-    fontFamily: "mont-bold",
-    fontSize: 26
+    fontFamily: "mont-semi",
+    fontSize: 20
   },
   clothTypeView: {
     width: "87.5%",
@@ -754,11 +743,11 @@ const styles = StyleSheet.create({
   timeChosenText: {
     color: "#fff",
     fontSize: 16,
-    fontFamily: "mont-bold"
+    fontFamily: "mont-semi"
   },
   timeUnhosenText: {
     color: "#769CF1",
     fontSize: 16,
-    fontFamily: "mont-bold"
+    fontFamily: "mont-semi"
   }
 });

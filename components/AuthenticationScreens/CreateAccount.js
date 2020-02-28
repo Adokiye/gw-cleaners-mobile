@@ -159,13 +159,11 @@ class reduxCreateAccount extends Component<Props> {
      <TouchableOpacity onPress={()=> this.props.navigation.goBack()}
      hitSlop={{left: 2, right: 2, top: 2, bottom: 2}}>
       <Image 
-          source={require('../../assets/images/left.png')}
+          source={require('../../assets/images/leftback.png')}
           resizeMode={'contain'}
           style={styles.leftImage}
       />
       </TouchableOpacity>
-      <ScrollView></ScrollView>
-      <View style={styles.bottomBox}>
       <ScrollView>
        <Text style={styles.createText}>Create Account</Text>
        <View style={styles.fullNameView}>
@@ -185,7 +183,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({first_name_text_input: true})}
               onBlur={()=> this.setState({first_name_text_input: false})}
               onSubmitEditing={()=> {this.lastNameTextInput.focus();}}
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               autoFocus={true}
               style={styles.textFieldInput}
               value={this.state.first_name}
@@ -203,7 +201,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({last_name_text_input: true})}
               onBlur={()=> this.setState({last_name_text_input: false})}
               onSubmitEditing={()=> {this.emailTextInput.focus();}}
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               style={styles.textFieldInput}
               value={this.state.last_name}
               onChangeText={last_name => this.setState({last_name})}
@@ -227,7 +225,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({email_text_input: true})}
               onBlur={()=> this.setState({email_text_input: false})}
               onSubmitEditing={()=> {this.passwordTextInput.focus();}}
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               style={styles.textFieldInput}
               value={this.state.email}
               onChangeText={email => this.setState({email})}
@@ -250,7 +248,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({password_text_input: true})}
               onBlur={()=> this.setState({password_text_input: false})}
               onSubmitEditing={()=> {this.numberTextInput.focus();}}
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               style={styles.textFieldInput}
               value={this.state.password}
               onChangeText={password => this.setState({password})}
@@ -279,7 +277,7 @@ class reduxCreateAccount extends Component<Props> {
                       this.addressTextInput.focus();}
                       }
                   }
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               style={styles.textFieldInput}
             />
            </View>
@@ -299,12 +297,12 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({address_text_input: true})}
               onBlur={()=> this.setState({address_text_input: false})}
               onSubmitEditing={this.createAccount.bind(this)}
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               style={styles.textFieldInput}
               value={this.state.address}
               onChangeText={address => this.setState({address})}
             />
-       </View></ScrollView>
+       </View>
        <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignIn')}>
        <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#769CF1',
        fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'mont-reg'}}>
@@ -316,7 +314,7 @@ class reduxCreateAccount extends Component<Props> {
           CONTINUE
           </Text>
         </View></TouchableOpacity>
-      </View>
+        </ScrollView>
       {this.state.regLoader?<Loader /> :null} 
      </View>
     );
@@ -330,7 +328,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: '#769CF1'
+        backgroundColor: '#fff'
       },
     leftImage: {
         marginLeft: 20,
@@ -349,10 +347,11 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     createText: {
-        fontFamily: 'mont-bold',
+        fontFamily: 'mont-semi',
         alignSelf: 'center',
         fontSize: 21,
-        color: '#000'
+        color: '#000',
+        marginTop: 20
     },
     fullNameView: {
         width: '87.5%', 
@@ -362,7 +361,7 @@ const styles = StyleSheet.create({
     },
     fullNameText: {
         color: '#000',
-         fontFamily: 'mont-bold',
+         fontFamily: 'mont-semi',
          fontSize: 10
     },
     textFieldView: {
@@ -462,18 +461,18 @@ textFieldInput: {
  },
  continueView:{
     width:'87.5%',
-    height:42,
+    height:45,
     backgroundColor:'#769CF1',
     alignItems:'center',
     justifyContent:'center',
     marginTop:30,
     alignSelf:'center',
-    borderRadius:3,
+    borderRadius:10,
     marginBottom: 10
 },
 continueText:{
     color:'#fff',
-    fontFamily:'mont-bold',
-    fontSize:13
+    fontFamily:'mont-semi',
+    fontSize:16
 }
 });

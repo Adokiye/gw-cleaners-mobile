@@ -50,7 +50,7 @@ class Welcome extends Component<Props> {
           resizeMode="contain"
           style={{width: 167, height: 167}}
         />
-        <Text style={styles.easeText}>Glad to meet you!</Text>
+        <Text style={styles.easeText}>Welcome to Washit! Glad to meet you!</Text>
       </View>
 
         <View style={styles.buttonContainer}>
@@ -64,7 +64,7 @@ class Welcome extends Component<Props> {
          activeOpacity={0.7}>
           <View style={styles.buttonOutline}>
           <Text style={styles.buttonOutlineText}>
-          Sign Up
+          Create Account
           </Text>
           </View>
           </TouchableOpacity></View>
@@ -77,6 +77,7 @@ class Welcome extends Component<Props> {
 )(reduxSplash);*/
 const dimensions = Dimensions.get("window");
 const Width = dimensions.width;
+const Height = dimensions.height;
 export default Welcome;
 const styles = StyleSheet.create({
   container: {
@@ -98,43 +99,44 @@ const styles = StyleSheet.create({
  },
  easeText: {
      fontFamily: 'mont-semi',
-     fontSize: 12,
-     color: '#7D7676'
+     fontSize: 14,
+     color: '#7D7676',
+     marginTop: 15
  },
  button: {
-  width: 219,
-  height: 45,
+  width:Width*(87.5/100),
+  height:45,
   alignSelf: 'center',
   alignItems: 'center',
   backgroundColor: '#769CF1',
   justifyContent: 'center',
-  borderRadius: 20,
+  borderRadius: 10,
   marginBottom: 10
   },
   buttonText: {
-  fontFamily: 'mont-bold',
-  fontSize: 14,
+  fontFamily: 'mont-semi',
+  fontSize: 16,
   color: '#fff'    
   },
   buttonOutline: {
-    width: 219,
-    height: 45,
+    width:Width*(87.5/100),
+    height:45,
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: '#769CF1',
     marginBottom: 50
     },
     buttonOutlineText: {
-    fontFamily: 'mont-bold',
-    fontSize: 14,
+    fontFamily: 'mont-semi',
+    fontSize: 16,
     color: '#769CF1'    
     },
     buttonContainer: {
-      height: 102,
+      height: 110,
       flexDirection: 'column',
       justifyContent: 'space-between'
     }

@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 26
       },
       modalView: {
@@ -237,12 +237,12 @@ const styles = StyleSheet.create({
       },
       boxId: {
           color: '#000',
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 13
       },
       boxLocation: {
         color: '#000',
-        fontFamily: 'mont-bold',
+        fontFamily: 'mont-semi',
         fontSize: 13,
         marginTop: 14,
         width: 158,

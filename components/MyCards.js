@@ -305,8 +305,8 @@ const styles = StyleSheet.create({
   },
   hiText: {
     color: "#fff",
-    fontFamily: "mont-bold",
-    fontSize: 26
+    fontFamily: "mont-semi",
+    fontSize: 20
   },
   cardView: {
     alignSelf: "center",
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   cardLastDigits: {
     color: "#000",
     fontSize: 12,
-    fontFamily: "mont-bold"
+    fontFamily: "mont-semi"
   },
   dateText: {
     fontFamily: "mont-reg",

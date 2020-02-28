@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 26
       },
       clothTypeView: {
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
       },
       explainedTitle: {
           fontSize: 17,
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           color: '#000'
       }, 
       detailsText: {

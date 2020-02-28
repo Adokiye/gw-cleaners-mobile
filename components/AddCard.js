@@ -28,15 +28,16 @@ import axios from "axios";
 import Toast from "react-native-simple-toast";
 // import stripe from 'tipsi-stripe'
 import Sure from "./Includes/Sure";
-import { stripeCheckoutRedirectHTML } from './Includes/AddCard.js';
-import { WebView } from 'react-native-webview';
+import { stripeCheckoutRedirectHTML } from "./Includes/AddCard.js";
+import { WebView } from "react-native-webview";
 type Props = {};
 import { connect } from "react-redux";
 const mapStateToProps = state => ({
   ...state
 });
 const dimensions = Dimensions.get("window");
-const Width = dimensions.width;const Height = dimensions.height;
+const Width = dimensions.width;
+const Height = dimensions.height;
 class reduxAddCard extends Component<Props> {
   static navigationOptions = {
     header: null,
@@ -55,9 +56,9 @@ class reduxAddCard extends Component<Props> {
       expiry_year: "",
       cvv: "",
       valid: false,
-      token: ''
+      token: ""
     };
-    this.order = this.order.bind(this)
+    this.order = this.order.bind(this);
   }
   hideSpinner() {
     this.setState({ regLoader: false });
@@ -67,7 +68,6 @@ class reduxAddCard extends Component<Props> {
     console.log(params);
   }
   _onChange = form => {
-
     let expiry_month,
       expiry_year,
       slash_loc = "";
@@ -86,24 +86,26 @@ class reduxAddCard extends Component<Props> {
           }
         }
       }
-    } 
-       console.log(JSON.stringify(form.values))
-    this.setState({
-      valid: form.valid,
-      card_no: form.values.number,
-      expiry_month: expiry_month,
-      expiry_year: expiry_year,
-      cvv: form.values.cvv
-    }, ()=>{
-      if(this.state.valid){
-        console.log("kks")
-        this.order()
+    }
+    console.log(JSON.stringify(form.values));
+    this.setState(
+      {
+        valid: form.valid,
+        card_no: form.values.number,
+        expiry_month: expiry_month,
+        expiry_year: expiry_year,
+        cvv: form.values.cvv
+      },
+      () => {
+        if (this.state.valid) {
+          console.log("kks");
+          this.order();
+        }
       }
-    } );
-    
+    );
   };
-   order(token) {
-   // const { params } = this.props.navigation.state;
+  order(token) {
+    // const { params } = this.props.navigation.state;
     this.setState({ regLoader: true });
     var config = {
       headers: { Authorization: "Bearer " + this.props.token },
@@ -114,10 +116,10 @@ class reduxAddCard extends Component<Props> {
       number: this.state.card_no,
       expMonth: this.state.expiry_month,
       expYear: this.state.expiry_year,
-      cvc: this.state.cvv,
-    }
+      cvc: this.state.cvv
+    };
     // const token = await stripe.createTokenWithCard(params);
-    console.log(JSON.stringify(token))
+    console.log(JSON.stringify(token));
     var bodyParameters = {
       user_id: this.props.id,
       token: token,
@@ -130,7 +132,7 @@ class reduxAddCard extends Component<Props> {
       preferences: this.props.preferences
     };
     console.log(JSON.stringify(bodyParameters));
-          axios
+    axios
       .post(API_URL + "cards", bodyParameters, config)
       .then(response => {
         console.log(response);
@@ -146,33 +148,34 @@ class reduxAddCard extends Component<Props> {
           console.log(JSON.stringify(error));
         }
       });
-
   }
   render() {
     return (
       <View style={{ flex: 1 }}>
-      <WebView
-      originWhitelist={['*']}
-      onLoad={this.hideSpinner.bind(this)}
-      source={{ html: stripeCheckoutRedirectHTML() }}
-      onMessage={event => {
-         //   alert(event.nativeEvent.data);
+        <WebView
+          originWhitelist={["*"]}
+          onLoad={this.hideSpinner.bind(this)}
+          source={{ html: stripeCheckoutRedirectHTML() }}
+          onMessage={event => {
+            //   alert(event.nativeEvent.data);
             console.log(event.nativeEvent.data);
-            this.setState({token: event.nativeEvent.data}, ()=> {this.order(this.state.token)});
+            this.setState({ token: event.nativeEvent.data }, () => {
+              this.order(this.state.token);
+            });
           }}
           scalesPageToFit={true}
           javaScriptEnabled={true}
-            domStorageEnabled={true} 
-        style={{ flex: 1 }}
-   //   onLoadStart={onLoadStart}
-    />
-            {this.state.regLoader && (
+          domStorageEnabled={true}
+          style={{ flex: 1 }}
+          //   onLoadStart={onLoadStart}
+        />
+        {this.state.regLoader && (
           <ActivityIndicator
             style={{ position: "absolute", top: Height / 2, left: Width / 2 }}
             size="large"
           />
         )}
-    </View>
+      </View>
     );
   }
 }
@@ -207,7 +210,7 @@ const styles = StyleSheet.create({
   },
   hiText: {
     color: "#fff",
-    fontFamily: "mont-bold",
+    fontFamily: "mont-semi",
     fontSize: 26
   },
   cardView: {
@@ -232,7 +235,7 @@ const styles = StyleSheet.create({
   cardLastDigits: {
     color: "#000",
     fontSize: 12,
-    fontFamily: "mont-bold"
+    fontFamily: "mont-semi"
   },
   dateText: {
     fontFamily: "mont-reg",

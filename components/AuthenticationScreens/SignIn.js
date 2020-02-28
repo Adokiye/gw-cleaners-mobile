@@ -115,7 +115,7 @@ class reduxSignIn extends Component<Props> {
         password: this.state.password,
         device_token: this.state.fcmToken
       };
-      Toast.show(API_URL);
+   //   Toast.show(API_URL);
       axios
       .post(API_URL+"login", bodyParameters, {
         timeout: 20000
@@ -149,15 +149,13 @@ class reduxSignIn extends Component<Props> {
      <TouchableOpacity onPress={()=> this.props.navigation.goBack()}
      hitSlop={{left: 2, right: 2, top: 2, bottom: 2}}>
       <Image 
-          source={require('../../assets/images/left.png')}
+          source={require('../../assets/images/leftback.png')}
           resizeMode={'contain'}
           style={styles.leftImage}
       />
       </TouchableOpacity>
-      <ScrollView></ScrollView>
-      <View style={styles.bottomBox}>
       <ScrollView>
-       <Text style={styles.createText}>Log In</Text>
+       <Text style={styles.createText}>Welcome Back!</Text>
        <View style={styles.fullNameView}>
        <Text style={styles.fullNameText}>
        Email
@@ -169,6 +167,7 @@ class reduxSignIn extends Component<Props> {
               allowFontScaling={false}
               placeholder="Enter Email"
               returnKeyType={'next'}
+              autoFocus={true}
               ref={ (input) => {this.emailTextInput = input }}
               blurOnSubmit={false}
               onFocus={()=> this.setState({email_text_input: true})}
@@ -176,7 +175,7 @@ class reduxSignIn extends Component<Props> {
               onChangeText={email => this.setState({ email })}
               onBlur={()=> this.setState({email_text_input: false})}
               onSubmitEditing={()=> {this.passwordTextInput.focus();}}
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               style={styles.textFieldInput}
               autoFocus={true}
             />
@@ -200,10 +199,10 @@ class reduxSignIn extends Component<Props> {
               onFocus={()=> this.setState({password_text_input: true})}
               onBlur={()=> this.setState({password_text_input: false})}
               onSubmitEditing={this.signIn.bind(this)}
-              placeholderTextColor="#a4b5db"
+              placeholderTextColor="#c4c4c4"
               style={styles.textFieldInput}
             />
-       </View></ScrollView>
+       </View>
        <TouchableOpacity onPress={()=> this.props.navigation.navigate('CreateAccount')}>
        <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#769CF1',
        fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'mont-reg'}}>
@@ -214,10 +213,11 @@ class reduxSignIn extends Component<Props> {
           <Text style={styles.continueText}>
           Sign In
           </Text>
-        </View></TouchableOpacity>
+        </View></TouchableOpacity>    
+        </ScrollView>
+         {this.state.regLoader?<Loader /> :null} 
       </View>
-     {this.state.regLoader?<Loader /> :null} 
-     </View>
+
     );
   }
 }
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: '#769CF1'
+        backgroundColor: '#fff'
       },
     leftImage: {
         marginLeft: 20,
@@ -248,10 +248,11 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     createText: {
-        fontFamily: 'mont-bold',
+        fontFamily: 'mont-semi',
         alignSelf: 'center',
         fontSize: 21,
-        color: '#000'
+        color: '#000',
+        marginTop: 20
     },
     fullNameView: {
         width: '87.5%', 
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
     },
     fullNameText: {
         color: '#000',
-         fontFamily: 'mont-bold',
+         fontFamily: 'mont-semi',
          fontSize: 10
     },
     textFieldView: {
@@ -359,18 +360,18 @@ textFieldInput: {
  },
  continueView:{
     width:'87.5%',
-    height:42,
+    height:45,
     backgroundColor:'#769CF1',
     alignItems:'center',
     justifyContent:'center',
     marginTop:30,
     alignSelf:'center',
-    borderRadius:3,
+    borderRadius:10,
     marginBottom: 10
 },
 continueText:{
     color:'#fff',
-    fontFamily:'mont-bold',
-    fontSize:13
+    fontFamily:'mont-semi',
+    fontSize:16
 }
 });

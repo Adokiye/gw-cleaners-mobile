@@ -161,17 +161,18 @@ class reduxDashboard extends Component<Props> {
     </View>
       }else{
        show = <View style={styles.insideGreenBox}>
-        <Text style={styles.noOrders}>Create your first order with Washit!</Text>
-        <View style={{
-        width: 275,
-        height: 275,
-      }}>
+               <View style={{
+        width: '100%',
+        height: '60%',
+        position: 'absolute'      }}>
               <Image
           source={require("../../assets/images/washitSplashBack.png")}
           resizeMode="cover"
           style={{flex: 1}}
         />
       </View>
+        <Text style={styles.noOrders}>Create your first order with Washit!</Text>
+
     </View>
       }
     return (
@@ -198,7 +199,7 @@ class reduxDashboard extends Component<Props> {
             {show}
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('SelectDropbox',)}>
             <View style={styles.placeOrderView}>
-                <Text style={styles.placeText}>Place an order</Text>
+                <Text style={styles.placeText}>Schedule Dropoff</Text>
                 <Image 
                 source={require('../../assets/images/rightArrow.png')}
                 resizeMode={'contain'}
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 26
       },
       insideGreenBox: {
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
     },
     numberOrdersText: {
         color: '#fff',
-        fontFamily: 'mont-bold',
+        fontFamily: 'mont-semi',
         fontSize: 40
     },
       noOrders: {
@@ -298,7 +299,7 @@ const styles = StyleSheet.create({
           textAlign: 'center',
           color: '#fff',
           fontSize: 20,
-          fontFamily: 'mont-bold'
+          fontFamily: 'mont-semi'
       },
       placeOrderView: {
           width: Width*(77.867/100),
@@ -314,7 +315,7 @@ const styles = StyleSheet.create({
       placeText: {
           color: '#fff',
           fontSize: 14,
-          fontFamily: 'mont-bold'
+          fontFamily: 'mont-semi'
       },
 
 });

@@ -179,8 +179,8 @@ const styles = StyleSheet.create({
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'mont-bold',
-          fontSize: 26
+          fontFamily: 'mont-semi',
+          fontSize: 20
       },
       orderView: {
         alignSelf: 'center',
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
         marginBottom: 30
       },
       orderDetailsHeader: {
-        fontFamily: 'mont-bold',
+        fontFamily: 'mont-semi',
         color: '#000',
         fontSize: 17
       },
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         fontSize: 13, 
       },
       inProcessTime: {
-        fontFamily: 'mont-boldItalic',
+        fontFamily: 'mont-semiItalic',
         fontSize: 10,
         color: '#000',
         marginTop: 5

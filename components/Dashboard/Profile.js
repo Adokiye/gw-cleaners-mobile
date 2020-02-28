@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 26
       },
       profileImageView: {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
           marginBottom: 14
       },
       userName: {
-          fontFamily: 'mont-bold',
+          fontFamily: 'mont-semi',
           fontSize: 16,
           color: '#000',
           alignSelf: 'center',
@@ -260,12 +260,12 @@ const styles = StyleSheet.create({
     },
     optionUnpressedText: {
         color: '#000',
-        fontFamily: 'mont-bold',
+        fontFamily: 'mont-semi',
         fontSize: 11
     },
     optionPressedText: {
         color: '#fff',
-        fontFamily: 'mont-bold',
+        fontFamily: 'mont-semi',
         fontSize: 11
     }
 });

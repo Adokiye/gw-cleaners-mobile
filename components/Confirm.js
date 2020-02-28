@@ -184,7 +184,7 @@ class reduxConfirm extends Component<Props> {
             />
           </TouchableOpacity>
           <View style={styles.welcomeBox}>
-            <Text style={styles.hiText}>Confirm</Text>
+            <Text style={styles.hiText}>Confirm Order</Text>
           </View>
           <Image
             source={require("../assets/images/plus.png")}
@@ -194,13 +194,13 @@ class reduxConfirm extends Component<Props> {
         </View>
         <ScrollView contentContainerStyle={{ flexGrow: 1,  }}>
         <View style={styles.clothTypeView}>
-          <Text style={styles.clothTypeText}>Dropoff date and Time</Text>
+          <Text style={styles.clothTypeText}>Dropoff</Text>
           <Text style={styles.clothTypeInsideText}>
             {moment(this.props.dropoffDate).format("dddd, MMMM Do YYYY") +
               " " +
               this.props.dropoffTime}
           </Text>
-          <Text style={styles.clothTypeText}>Pickup date and time</Text>
+          <Text style={styles.clothTypeText}>Pickup</Text>
           <Text style={styles.clothTypeInsideText}>
             {moment(this.props.pickupDate).format("dddd, MMMM Do YYYY") +
               " " +
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#fff",
+    backgroundColor: "#769CF1",
     alignItems: "center"
   },
   headerView: {
@@ -276,8 +276,8 @@ const styles = StyleSheet.create({
   },
   hiText: {
     color: "#fff",
-    fontFamily: "mont-bold",
-    fontSize: 26
+    fontFamily: "mont-semi",
+    fontSize: 20
   },
   clothTypeView: {
     width: "87.5%",
@@ -287,14 +287,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   clothTypeText: {
-    color: "#000",
+    color: "#fff",
     fontFamily: "mont-semi",
     fontSize: 16,
     marginTop: 10
     //  marginLeft: 15
   },
   clothTypeInsideText: {
-    color: "#000",
+    color: "#fff",
     fontFamily: "mont-extraBold",
     fontSize: 15,
     width: '95%',
@@ -319,13 +319,13 @@ const styles = StyleSheet.create({
     borderRadius: 19.67,
     alignSelf: "center",
     // marginTop: 10,
-    backgroundColor: "#769CF1",
+    backgroundColor: "#fff",
     marginBottom: 10
   },
   placeText: {
-    color: "#fff",
+    color: "#769CF1",
     fontSize: 15,
-    fontFamily: "mont-bold"
+    fontFamily: "mont-semi"
   },
   iplaceOrderView: {
     width: 140,
@@ -336,14 +336,14 @@ const styles = StyleSheet.create({
     borderRadius: 19.67,
     alignSelf: "center",
     //  marginTop: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#769CF1",
     borderWidth: 1,
-    borderColor: '#769CF1'
+    borderColor: '#fff'
     // marginBottom: 10,
   },
   iplaceText: {
-    color: "#769CF1",
+    color: "#fff",
     fontSize: 15,
-    fontFamily: "mont-bold"
+    fontFamily: "mont-semi"
   }
 });
