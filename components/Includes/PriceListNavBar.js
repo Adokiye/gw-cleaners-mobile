@@ -114,13 +114,13 @@ export default class PriceListNavBar extends Component {
 }
 const styles = StyleSheet.create({
   onlineText: {
-    color: "#1bc47d",
+    color: "#769CF1",
     fontSize: 10,
-    fontFamily: "proRegular"
+    fontFamily: "mont-reg"
   },
   offlineText: {
-    color: "#898888",
+    color: "#81898F",
     fontSize: 10,
-    fontFamily: "proRegular"
+    fontFamily: "mont-reg"
   }
 });

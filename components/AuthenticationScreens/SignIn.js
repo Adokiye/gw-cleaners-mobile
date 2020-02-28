@@ -128,7 +128,7 @@ class reduxSignIn extends Component<Props> {
         this.props.setId(id);
         this.setState({ regLoader: false });
   //      await AsyncStorage.setItem('user_stats', JSON.stringify(user_stats));
-        Toast.show('Sign in successful');
+        Toast.show('Log in successful');
         this.props.navigation.navigate("Dashboard", {});
           })
           .catch(error => {
@@ -157,7 +157,7 @@ class reduxSignIn extends Component<Props> {
       <ScrollView></ScrollView>
       <View style={styles.bottomBox}>
       <ScrollView>
-       <Text style={styles.createText}>Sign In</Text>
+       <Text style={styles.createText}>Log In</Text>
        <View style={styles.fullNameView}>
        <Text style={styles.fullNameText}>
        Email
@@ -176,7 +176,7 @@ class reduxSignIn extends Component<Props> {
               onChangeText={email => this.setState({ email })}
               onBlur={()=> this.setState({email_text_input: false})}
               onSubmitEditing={()=> {this.passwordTextInput.focus();}}
-              placeholderTextColor="#B9B2B2"
+              placeholderTextColor="#a4b5db"
               style={styles.textFieldInput}
               autoFocus={true}
             />
@@ -200,13 +200,13 @@ class reduxSignIn extends Component<Props> {
               onFocus={()=> this.setState({password_text_input: true})}
               onBlur={()=> this.setState({password_text_input: false})}
               onSubmitEditing={this.signIn.bind(this)}
-              placeholderTextColor="#B9B2B2"
+              placeholderTextColor="#a4b5db"
               style={styles.textFieldInput}
             />
        </View></ScrollView>
        <TouchableOpacity onPress={()=> this.props.navigation.navigate('CreateAccount')}>
-       <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#1bc47d',
-       fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'proRegular'}}>
+       <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#769CF1',
+       fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'mont-reg'}}>
          Don't Have an Account?, Sign Up
        </Text></TouchableOpacity>
        <TouchableOpacity onPress={this.signIn.bind(this)}>
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: '#1bc47d'
+        backgroundColor: '#769CF1'
       },
     leftImage: {
         marginLeft: 20,
@@ -239,16 +239,16 @@ const styles = StyleSheet.create({
     },
     bottomBox: {
         backgroundColor: '#fff',
-        height: '90%',
+        height: '100%',
         width: '100%',
-        borderTopLeftRadius: 35,
-        borderTopRightRadius: 35,
+        // borderTopLeftRadius: 35,
+        // borderTopRightRadius: 35,
         paddingTop: 20, 
         flexDirection: 'column',
         alignSelf: 'flex-end'
     },
     createText: {
-        fontFamily: 'proBold',
+        fontFamily: 'mont-bold',
         alignSelf: 'center',
         fontSize: 21,
         color: '#000'
@@ -261,15 +261,15 @@ const styles = StyleSheet.create({
     },
     fullNameText: {
         color: '#000',
-         fontFamily: 'proBold',
+         fontFamily: 'mont-bold',
          fontSize: 10
     },
     textFieldView: {
         width: '88%',
         height: 50,
-        borderRadius: 3,
-        borderColor: '#fefefe',
-        borderWidth: 1,
+       // borderRadius: 3,
+        borderBottomColor: '#fefefe',
+        borderBottomWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 23,
@@ -278,9 +278,9 @@ const styles = StyleSheet.create({
     focusedTextFieldView: {
       width: '88%',
       height: 50,
-      borderRadius: 3,
-      borderColor: '#1bc47d',
-      borderWidth: 1,
+      //borderRadius: 3,
+      borderBottomColor: '#769CF1',
+      borderBottomWidth: 1,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 23,
@@ -289,9 +289,9 @@ const styles = StyleSheet.create({
   subNameFieldView: {
       width: '45%',
       height: 50,
-      borderRadius: 3,
-      borderColor: '#fefefe',
-      borderWidth: 1,
+     // borderRadius: 3,
+      borderBottomColor: '#fefefe',
+      borderBottomWidth: 1,
       alignItems: 'center',
       justifyContent: 'center',
       alignSelf: 'center'
@@ -299,9 +299,9 @@ const styles = StyleSheet.create({
   focusedSubNameFieldView: {
     width: '45%',
     height: 50,
-    borderRadius: 3,
-    borderColor: '#1bc47d',
-    borderWidth: 1,
+   // borderRadius: 3,
+    borderBottomColor: '#769CF1',
+    borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center'
@@ -314,10 +314,10 @@ const styles = StyleSheet.create({
       marginBottom: 23
   },
   dialCodeView: {
-      borderColor: '#1bc47d',
+      borderColor: '#769CF1',
       width: 68,
       height: 50,
-      borderRadius: 3,
+    //  borderRadius: 3,
       alignItems: 'center',
       justifyContent: 'space-around',
       flexDirection: 'row'
@@ -325,14 +325,14 @@ const styles = StyleSheet.create({
   dialCodeText: {
       color: '#000',
       fontSize: 11,
-      fontFamily: 'proRegular'
+      fontFamily: 'mont-reg'
   },
   focusedNumberFieldView: {
     width: '60%',
     height: 50,
-    borderRadius: 3,
-    borderColor: '#1bc47d',
-    borderWidth: 1,
+   // borderRadius: 3,
+    borderBottomColor: '#769CF1',
+    borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center'
@@ -341,8 +341,8 @@ numberFieldView: {
     width: '60%',
     height: 50,
     borderRadius: 3,
-    borderColor: '#fefefe',
-    borderWidth: 1,
+    borderBottomColor: '#fefefe',
+    borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center'
@@ -354,13 +354,13 @@ textFieldInput: {
     justifyContent: 'center',
     color: '#000',
     fontSize: 16,
-     fontFamily: "proSemi",
+     fontFamily: "mont-semi",
      paddingLeft: -1
  },
  continueView:{
     width:'87.5%',
     height:42,
-    backgroundColor:'#1BC47D',
+    backgroundColor:'#769CF1',
     alignItems:'center',
     justifyContent:'center',
     marginTop:30,
@@ -370,7 +370,7 @@ textFieldInput: {
 },
 continueText:{
     color:'#fff',
-    fontFamily:'proBold',
+    fontFamily:'mont-bold',
     fontSize:13
 }
 });

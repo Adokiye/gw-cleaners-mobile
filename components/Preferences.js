@@ -135,8 +135,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ separateWhites: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -159,8 +159,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ softener: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -183,8 +183,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ hang_dry: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -207,8 +207,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ hypo: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -231,8 +231,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ low_dry: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -255,8 +255,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ bleach_white: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -282,8 +282,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ crease: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -306,8 +306,8 @@ if(this.state.bleach_white){
             onPress={value => this.setState({ starch: value })}
             //selectedColor={colors.white}
             buttonMargin={3}
-            buttonColor={'#1bc47d'}
-            borderColor={'#1bc47d'}
+            buttonColor={'#769CF1'}
+            borderColor={'#769CF1'}
             backgroundColor={'#f4f4f4'}
             height={23}
             borderRadius={12.5}
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
       headerView: {
           width: '100%',
           height: 100,
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           flexDirection: 'row',
           paddingLeft: 10,
           paddingRight: 10,
@@ -355,13 +355,13 @@ const styles = StyleSheet.create({
           marginLeft: 13
       },
       dateText: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           fontSize: 13,
           color: '#fff'
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 26
       },
       clothTypeView: {
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
       },
       clothTypeText: {
           color: '#000',
-          fontFamily: 'proExtraBold',
+          fontFamily: 'mont-extraBold',
           fontSize: 18
       },
       explainedBox: {
@@ -391,11 +391,11 @@ const styles = StyleSheet.create({
       },
       explainedTitle: {
           fontSize: 17,
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           color: '#000'
       }, 
       detailsText: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           fontSize: 8,
           color: '#FF0707',
           position:'absolute',
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
           height: 43,
           borderRadius: 43/2,
           alignSelf: 'center',
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           alignItems: 'center',
           justifyContent: 'center', 
           marginTop: 20,

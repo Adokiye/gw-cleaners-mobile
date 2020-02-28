@@ -31,25 +31,44 @@ class Welcome extends Component<Props> {
   }
   render() {
     return (
-        <View style={styles.container}>
-        <Text style={styles.easyBold}>Easy Laundry Solutions</Text>
-        <Text style={styles.withText}>With GW cleaners</Text>
-        <View style={styles.bigBox}>
-          <View style={styles.smallBox}>
-            <Image 
-              source={require('../assets/images/welcomeImage.png')}
-              resizeMode={'contain'}
-              style={{width: 237, height: 237}}
-            />
+      <View style={styles.container}>
+      <View style={{
+        width: '100%',
+        height: '70%',
+        position: 'absolute',
+        top: '10%'
+      }}>
+              <Image
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{flex: 1}}
+        />
+      </View>
+      <View style={styles.nine_moveView}>
+      <Image
+          source={require("../assets/images/washitLogo.png")}
+          resizeMode="contain"
+          style={{width: 167, height: 167}}
+        />
+        <Text style={styles.easeText}>Glad to meet you!</Text>
+      </View>
+
+        <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignIn')}
+        activeOpacity={0.7}>
+          <View style={styles.button}>
+          <Text style={styles.buttonText}>Sign In</Text>
           </View>
-        </View>
-        <TouchableOpacity onPress={()=> this.props.navigation.navigate('CreateAccount')}>
-        <View style={styles.continueView}>
-          <Text style={styles.continueText}>
-          CONTINUE
+          </TouchableOpacity>
+         <TouchableOpacity onPress={()=> this.props.navigation.navigate('CreateAccount')}
+         activeOpacity={0.7}>
+          <View style={styles.buttonOutline}>
+          <Text style={styles.buttonOutlineText}>
+          Sign Up
           </Text>
-        </View></TouchableOpacity>
-        </View>
+          </View>
+          </TouchableOpacity></View>
+      </View>
     );
   }
 }
@@ -60,56 +79,64 @@ const dimensions = Dimensions.get("window");
 const Width = dimensions.width;
 export default Welcome;
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: '#fff',
-      },
-      easyBold:{
-          fontFamily:'proBold',
-          fontSize:17,
-          color:'#000',
-          marginTop:74,
-          alignSelf:'center'
-      },
-      withText:{
-          color:'#6A6767',
-          fontSize:15,
-          fontFamily:'proRegular',
-          alignSelf:'center'
-      },
-      bigBox:{
-          width:'87.5%',
-          height:366,
-          alignSelf:'center',
-          backgroundColor:'#DBFFF0',
-          alignItems:'center',
-          justifyContent:'center',
-          borderRadius:13,
-          marginTop:32
-      },
-      smallBox:{
-          backgroundColor:'#fff',
-          width:'86.89%',
-          height:320,
-          borderRadius:13,
-          alignItems:'center',
-          justifyContent:'center',
-      },
-      continueView:{
-          width: Width*(87.5/100),
-          height:42,
-          backgroundColor:'#1BC47D',
-          alignItems:'center',
-          justifyContent:'center',
-          marginTop:50,
-          alignSelf:'center',
-          borderRadius:3
-      },
-      continueText:{
-          color:'#fff',
-          fontFamily:'proBold',
-          fontSize:13
-      }
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: '#fff',
+    justifyContent: 'space-around'
+  },
+ logo: {
+     width: Width*(97/100),
+     height: Height*(32.8/100),
+     alignSelf: 'center',
+//        marginTop:'50%'
+ },
+ nine_moveView: {
+    flexDirection: 'column',
+    alignItems: 'center'
+ },
+ easeText: {
+     fontFamily: 'mont-semi',
+     fontSize: 12,
+     color: '#7D7676'
+ },
+ button: {
+  width: 219,
+  height: 45,
+  alignSelf: 'center',
+  alignItems: 'center',
+  backgroundColor: '#769CF1',
+  justifyContent: 'center',
+  borderRadius: 20,
+  marginBottom: 10
+  },
+  buttonText: {
+  fontFamily: 'mont-bold',
+  fontSize: 14,
+  color: '#fff'    
+  },
+  buttonOutline: {
+    width: 219,
+    height: 45,
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#769CF1',
+    marginBottom: 50
+    },
+    buttonOutlineText: {
+    fontFamily: 'mont-bold',
+    fontSize: 14,
+    color: '#769CF1'    
+    },
+    buttonContainer: {
+      height: 102,
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    }
+
 });

@@ -108,6 +108,7 @@ class reduxSchedule extends Component<Props> {
       this.props.setPickupDate(date);
     }
   }
+
   next() {
     if (!this.props.dropoffTime) {
       Toast.show("Select the time you want to drop your clothes");
@@ -680,7 +681,7 @@ const styles = StyleSheet.create({
   headerView: {
     width: "100%",
     height: 100,
-    backgroundColor: "#1bc47d",
+    backgroundColor: "#769CF1",
     flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 10,
@@ -692,13 +693,13 @@ const styles = StyleSheet.create({
     marginLeft: 13
   },
   dateText: {
-    fontFamily: "proRegular",
+    fontFamily: "mont-reg",
     fontSize: 13,
     color: "#fff"
   },
   hiText: {
     color: "#fff",
-    fontFamily: "proBold",
+    fontFamily: "mont-bold",
     fontSize: 26
   },
   clothTypeView: {
@@ -709,7 +710,7 @@ const styles = StyleSheet.create({
   },
   clothTypeText: {
     color: "#000",
-    fontFamily: "proExtraBold",
+    fontFamily: "mont-extraBold",
     fontSize: 18
   },
   circleView: {
@@ -717,7 +718,7 @@ const styles = StyleSheet.create({
     height: 43,
     borderRadius: 43 / 2,
     alignSelf: "center",
-    backgroundColor: "#1bc47d",
+    backgroundColor: "#769CF1",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
@@ -736,7 +737,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 40,
     borderRadius: 10,
-    backgroundColor: "#1bc47d",
+    backgroundColor: "#769CF1",
     alignItems: "center",
     justifyContent: "center"
   },
@@ -745,7 +746,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     backgroundColor: "#fff",
-    borderColor: "#1bc47d",
+    borderColor: "#769CF1",
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center"
@@ -753,11 +754,11 @@ const styles = StyleSheet.create({
   timeChosenText: {
     color: "#fff",
     fontSize: 16,
-    fontFamily: "proBold"
+    fontFamily: "mont-bold"
   },
   timeUnhosenText: {
-    color: "#1bc47d",
+    color: "#769CF1",
     fontSize: 16,
-    fontFamily: "proBold"
+    fontFamily: "mont-bold"
   }
 });

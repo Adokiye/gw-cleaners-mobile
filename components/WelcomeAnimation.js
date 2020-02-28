@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor: '#1bc47d',
+        backgroundColor: '#769CF1',
         justifyContent: 'center'
       },
       welcomeBox: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
           alignItems: 'center'
       },
       welcomeText: {
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 44,
           color: '#fff'
       }

@@ -36,9 +36,9 @@ class PriceList extends Component<Props> {
         <View style={styles.container}>
         <View style={styles.headerView}>
         <Image
-        source={require('../../assets/images/topAbstract.png')} 
-            resizeMode={'contain'}
-            style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
         />
             <View style={styles.welcomeBox}>
                 <Text style={styles.hiText}>
@@ -55,67 +55,63 @@ class PriceList extends Component<Props> {
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Shirt</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$20</Text>
+                <Text style={styles.priceText}>{'\u20A6'}200</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Pants</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$40</Text>
+                <Text style={styles.priceText}>{'\u20A6'}400</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Dress</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$20</Text>
+                <Text style={styles.priceText}>{'\u20A6'}200</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Blazer</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$10</Text>
+                <Text style={styles.priceText}>{'\u20A6'}1000</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>SweatShirt</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$10</Text>
+                <Text style={styles.priceText}>{'\u20A6'}1000</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Suit</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$10</Text>
+                <Text style={styles.priceText}>{'\u20A6'}1500</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Blouse</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$10</Text>
+                <Text style={styles.priceText}>{'\u20A6'}1000</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Vest</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$10</Text>
+                <Text style={styles.priceText}>{'\u20A6'}1000</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Tie</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$10</Text>
+                <Text style={styles.priceText}>{'\u20A6'}200</Text>
             </View>
         </View>
         <View style={styles.mainPriceView}>
             <Text style={styles.clothName}>Shorts</Text>
             <View style={styles.priceView}>
-                <Text style={styles.priceText}>$10</Text>
+                <Text style={styles.priceText}>{'\u20A6'}200</Text>
             </View>
         </View>
-        <Text style={{color: '#D80027', width: '70%', textAlign: 'center', alignSelf: 'center', fontSize: 10,
-        fontFamily: 'proRegular', marginTop: 20}}>
-        Silk and other delicate items will attract an upcharge 
-        </Text>
         </ScrollView>
         <PriceListNavBar navigation={this.props.navigation}/>
         </View>
@@ -135,7 +131,7 @@ const styles = StyleSheet.create({
       headerView: {
           width: '100%',
           height: 100,
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           flexDirection: 'row',
           paddingLeft: 10,
           paddingRight: 10,
@@ -147,13 +143,13 @@ const styles = StyleSheet.create({
           flexDirection: 'column'
       },
       dateText: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           fontSize: 13,
           color: '#fff'
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 26
       },
       mainPriceView: {
@@ -164,12 +160,12 @@ const styles = StyleSheet.create({
           alignSelf: 'center'
       },
       clothName: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           color: '#000',
           fontSize: 19
       },
       priceView: {
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           borderRadius: 4,
           width: 51,
           height: 20,
@@ -178,7 +174,7 @@ const styles = StyleSheet.create({
       }, 
       priceText: {
           color: '#fff',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 14
       } 
 });

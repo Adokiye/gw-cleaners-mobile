@@ -117,15 +117,13 @@ class reduxCreateAccount extends Component<Props> {
       Toast.show('Invalid Mobile Number')
     }else if(this.state.password.length < 8){
        Toast.show('Password must be up to 8 characters')
-    } else if (this.state.zip.length != 5) {
-      Toast.show('Invalid Zip code')
-    }else{
+    } else{
       this.setState({regLoader: true})
       var bodyParameters = {
         email: this.state.email,
         password: this.state.password,
         address: this.state.address,
-        zipcode: this.state.zip,
+       // zipcode: this.state.zip,
         mobile_number: this.state.number,
         first_name: this.state.first_name,
         last_name: this.state.last_name,
@@ -143,7 +141,7 @@ class reduxCreateAccount extends Component<Props> {
         this.props.setId(id);
         this.setState({ regLoader: false });
       //  Toast.show('Sign in successful');
-        this.props.navigation.navigate("WelcomeAnimation", {});
+      this.props.navigation.navigate("Dashboard", {});
           })
           .catch(error => {
             console.log(error);
@@ -187,7 +185,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({first_name_text_input: true})}
               onBlur={()=> this.setState({first_name_text_input: false})}
               onSubmitEditing={()=> {this.lastNameTextInput.focus();}}
-              placeholderTextColor="#B9B2B2"
+              placeholderTextColor="#a4b5db"
               autoFocus={true}
               style={styles.textFieldInput}
               value={this.state.first_name}
@@ -205,7 +203,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({last_name_text_input: true})}
               onBlur={()=> this.setState({last_name_text_input: false})}
               onSubmitEditing={()=> {this.emailTextInput.focus();}}
-              placeholderTextColor="#B9B2B2"
+              placeholderTextColor="#a4b5db"
               style={styles.textFieldInput}
               value={this.state.last_name}
               onChangeText={last_name => this.setState({last_name})}
@@ -229,7 +227,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({email_text_input: true})}
               onBlur={()=> this.setState({email_text_input: false})}
               onSubmitEditing={()=> {this.passwordTextInput.focus();}}
-              placeholderTextColor="#B9B2B2"
+              placeholderTextColor="#a4b5db"
               style={styles.textFieldInput}
               value={this.state.email}
               onChangeText={email => this.setState({email})}
@@ -252,7 +250,7 @@ class reduxCreateAccount extends Component<Props> {
               onFocus={()=> this.setState({password_text_input: true})}
               onBlur={()=> this.setState({password_text_input: false})}
               onSubmitEditing={()=> {this.numberTextInput.focus();}}
-              placeholderTextColor="#B9B2B2"
+              placeholderTextColor="#a4b5db"
               style={styles.textFieldInput}
               value={this.state.password}
               onChangeText={password => this.setState({password})}
@@ -260,18 +258,9 @@ class reduxCreateAccount extends Component<Props> {
        </View>
        <View style={styles.fullNameView}>
        <Text style={styles.fullNameText}>
-       Phone Number
+       Mobile Number
        </Text>
        </View>
-       <View style={styles.numberViewRow}>
-           <View style={styles.dialCodeView}>
-               <Image 
-                   source={require('../../assets/images/usa.png')}
-                   resizeMode={'contain'}
-                   style={{width: 21, height: 21}}
-               />
-               <Text style={styles.dialCodeText}>+1</Text>
-           </View>
            <View style={!this.state.number_text_input?styles.numberFieldView:styles.focusedNumberFieldView}>
            <TextInput
               underlineColorAndroid={"transparent"}
@@ -290,11 +279,10 @@ class reduxCreateAccount extends Component<Props> {
                       this.addressTextInput.focus();}
                       }
                   }
-              placeholderTextColor="#B9B2B2"
+              placeholderTextColor="#a4b5db"
               style={styles.textFieldInput}
             />
            </View>
-       </View>
        <View style={styles.fullNameView}>
        <Text style={styles.fullNameText}>
        Address
@@ -310,45 +298,17 @@ class reduxCreateAccount extends Component<Props> {
               blurOnSubmit={false}
               onFocus={()=> this.setState({address_text_input: true})}
               onBlur={()=> this.setState({address_text_input: false})}
-              onSubmitEditing={()=> {this.zipTextInput.focus();}}
-              placeholderTextColor="#B9B2B2"
+              onSubmitEditing={this.createAccount.bind(this)}
+              placeholderTextColor="#a4b5db"
               style={styles.textFieldInput}
               value={this.state.address}
               onChangeText={address => this.setState({address})}
             />
-       </View>
-       <View style={styles.fullNameView}>
-       <Text style={styles.fullNameText}>
-       Zip code
-       </Text>
-       </View>
-       <View style={this.state.zip_text_input?styles.focusedTextFieldView:styles.textFieldView}>
-       <TextInput
-              underlineColorAndroid={"transparent"}
-              allowFontScaling={false}
-              placeholder="Enter Zip code"
-              returnKeyType={'next'}
-              keyboardType={'numeric'}
-              ref={ (input) => {this.zipTextInput = input }}
-              blurOnSubmit={false}
-              onFocus={()=> this.setState({zip_text_input: true})}
-              onSubmitEditing={this.createAccount.bind(this)}
-              onSubmitEditing={()=> {
-                  if(this.state.zip && this.state.zip.length ==  5){
-                    this.createAccount.bind(this);}
-                      }
-                  }
-              onBlur={()=> this.setState({zip_text_input: false})}
-              placeholderTextColor="#B9B2B2"
-              style={styles.textFieldInput}
-              value={this.state.zip}
-              onChangeText={zip => this.setState({zip})}
-            />
        </View></ScrollView>
        <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignIn')}>
-       <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#1bc47d',
-       fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'proRegular'}}>
-         Already Have an Account?, Sign In
+       <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#769CF1',
+       fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'mont-reg'}}>
+         Already User?, Sign In
        </Text></TouchableOpacity>
        <TouchableOpacity onPress={this.createAccount.bind(this)}>
        <View style={styles.continueView}>
@@ -370,7 +330,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: '#1bc47d'
+        backgroundColor: '#769CF1'
       },
     leftImage: {
         marginLeft: 20,
@@ -380,7 +340,7 @@ const styles = StyleSheet.create({
     },
     bottomBox: {
         backgroundColor: '#fff',
-        height: '90%',
+        height: '100%',
         width: '100%',
         borderTopLeftRadius: 35,
         borderTopRightRadius: 35,
@@ -389,7 +349,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     createText: {
-        fontFamily: 'proBold',
+        fontFamily: 'mont-bold',
         alignSelf: 'center',
         fontSize: 21,
         color: '#000'
@@ -402,15 +362,15 @@ const styles = StyleSheet.create({
     },
     fullNameText: {
         color: '#000',
-         fontFamily: 'proBold',
+         fontFamily: 'mont-bold',
          fontSize: 10
     },
     textFieldView: {
         width: '88%',
         height: 50,
-        borderRadius: 3,
-        borderColor: '#fefefe',
-        borderWidth: 1,
+        //borderRadius: 3,
+        borderBottomColor: '#fefefe',
+        borderBottomWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 23,
@@ -419,9 +379,9 @@ const styles = StyleSheet.create({
     focusedTextFieldView: {
       width: '88%',
       height: 50,
-      borderRadius: 3,
-      borderColor: '#1bc47d',
-      borderWidth: 1,
+     // borderRadius: 3,
+      borderBottomColor: '#769CF1',
+      borderBottomWidth: 1,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 23,
@@ -430,9 +390,9 @@ const styles = StyleSheet.create({
   subNameFieldView: {
       width: '45%',
       height: 50,
-      borderRadius: 3,
-      borderColor: '#fefefe',
-      borderWidth: 1,
+   //   borderRadius: 3,
+      borderBottomColor: '#fefefe',
+      borderBottomWidth: 1,
       alignItems: 'center',
       justifyContent: 'center',
       alignSelf: 'center'
@@ -440,9 +400,9 @@ const styles = StyleSheet.create({
   focusedSubNameFieldView: {
     width: '45%',
     height: 50,
-    borderRadius: 3,
-    borderColor: '#1bc47d',
-    borderWidth: 1,
+    //borderRadius: 3,
+    borderBottomColor: '#769CF1',
+    borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center'
@@ -455,7 +415,7 @@ const styles = StyleSheet.create({
       marginBottom: 23
   },
   dialCodeView: {
-      borderColor: '#1bc47d',
+      borderColor: '#769CF1',
       width: 68,
       height: 50,
       borderRadius: 3,
@@ -466,27 +426,29 @@ const styles = StyleSheet.create({
   dialCodeText: {
       color: '#000',
       fontSize: 11,
-      fontFamily: 'proRegular'
+      fontFamily: 'mont-reg'
   },
   focusedNumberFieldView: {
-    width: '60%',
+    width: '88%',
     height: 50,
-    borderRadius: 3,
-    borderColor: '#1bc47d',
-    borderWidth: 1,
+   // borderRadius: 3,
+    borderBottomColor: '#769CF1',
+    borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 23,
     alignSelf: 'center'
 },   
 numberFieldView: {
-    width: '60%',
-    height: 50,
-    borderRadius: 3,
-    borderColor: '#fefefe',
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center'
+  width: '88%',
+  height: 50,
+  //borderRadius: 3,
+  borderBottomColor: '#fefefe',
+  borderBottomWidth: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: 23,
+  alignSelf: 'center'
 },   
 textFieldInput: {
     width: '100%',
@@ -495,13 +457,13 @@ textFieldInput: {
     justifyContent: 'center',
     color: '#000',
     fontSize: 16,
-     fontFamily: "proSemi",
+     fontFamily: "mont-semi",
      paddingLeft: -1
  },
  continueView:{
     width:'87.5%',
     height:42,
-    backgroundColor:'#1BC47D',
+    backgroundColor:'#769CF1',
     alignItems:'center',
     justifyContent:'center',
     marginTop:30,
@@ -511,7 +473,7 @@ textFieldInput: {
 },
 continueText:{
     color:'#fff',
-    fontFamily:'proBold',
+    fontFamily:'mont-bold',
     fontSize:13
 }
 });

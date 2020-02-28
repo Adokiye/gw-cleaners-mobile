@@ -146,7 +146,7 @@ class reduxDashboard extends Component<Props> {
         <View style={styles.insideGreenBoxTwo}>
         <TouchableOpacity onPress={()=> this.props.navigation.navigate('Orders')}> 
         <View style={styles.descriptionView}>
-          <Text style={styles.descriptionText}>Orders In Process</Text>
+          <Text style={styles.descriptionText}>Active Orders</Text>
           <View style={styles.numberOrdersView}>
               <Text style={styles.numberOrdersText}>{this.state.pending.length}</Text>
           </View>
@@ -161,28 +161,30 @@ class reduxDashboard extends Component<Props> {
     </View>
       }else{
        show = <View style={styles.insideGreenBox}>
-        <Text style={styles.noOrders}>You have no pending orders!</Text>
-        <Image 
-        source={require('../../assets/images/dashboardWash.png')}
-        resizeMode={'contain'}
-        style={{width: 270, height: 243}}
-    />
+        <Text style={styles.noOrders}>Create your first order with Washit!</Text>
+        <View style={{
+        width: 275,
+        height: 275,
+      }}>
+              <Image
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{flex: 1}}
+        />
+      </View>
     </View>
       }
     return (
         <View style={styles.container}>
         <View style={styles.headerView}>
-        <Image
-        source={require('../../assets/images/topAbstract.png')} 
-            resizeMode={'contain'}
-            style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+              <Image
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
         />
             <View style={styles.welcomeBox}>
-                <Text style={styles.dateText}>
-                   {moment().format("dddd, MMMM Do YYYY")}
-                </Text>
                 <Text style={styles.hiText}>
-                   Hi {this.state.first_name?this.state.first_name:null}
+                   Hello {this.state.first_name?this.state.first_name:null}
                 </Text>
             </View>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('Notifications')}>
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
       headerView: {
           width: '100%',
           height: 100,
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           flexDirection: 'row',
           paddingLeft: 10,
           paddingRight: 10,
@@ -238,13 +240,13 @@ const styles = StyleSheet.create({
           flexDirection: 'column'
       },
       dateText: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           fontSize: 13,
           color: '#fff'
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 26
       },
       insideGreenBox: {
@@ -256,7 +258,7 @@ const styles = StyleSheet.create({
           marginTop: '5%',
           paddingTop: 30,
           flexDirection: 'column',
-          backgroundColor: '#1bc47d'
+          backgroundColor: '#769CF1'
       },
       insideGreenBoxTwo: {
         width: Width*(77.867/100),
@@ -266,7 +268,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         marginTop: '5%',
         flexDirection: 'column',
-        backgroundColor: '#1bc47d'
+        backgroundColor: '#769CF1'
     },
     descriptionView: {
       flexDirection: 'column',
@@ -274,11 +276,11 @@ const styles = StyleSheet.create({
     descriptionText: {
         color: '#fff',
         fontSize: 14,
-        fontFamily: 'proRegular',
+        fontFamily: 'mont-reg',
         marginBottom: 16
     },
     numberOrdersView: {
-        backgroundColor: '#61D4A4',
+        backgroundColor: '#2d61d7',
         width: Width*(70/100),
         height: Height*(9.36/100),
         elevation: 2,
@@ -288,7 +290,7 @@ const styles = StyleSheet.create({
     },
     numberOrdersText: {
         color: '#fff',
-        fontFamily: 'proBold',
+        fontFamily: 'mont-bold',
         fontSize: 40
     },
       noOrders: {
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
           textAlign: 'center',
           color: '#fff',
           fontSize: 20,
-          fontFamily: 'proBold'
+          fontFamily: 'mont-bold'
       },
       placeOrderView: {
           width: Width*(77.867/100),
@@ -307,12 +309,12 @@ const styles = StyleSheet.create({
           borderRadius: 5,
           alignSelf: 'center',
           marginTop: 20,
-          backgroundColor: '#1bc47d'
+          backgroundColor: '#769CF1'
       },
       placeText: {
           color: '#fff',
           fontSize: 14,
-          fontFamily: 'proBold'
+          fontFamily: 'mont-bold'
       },
 
 });

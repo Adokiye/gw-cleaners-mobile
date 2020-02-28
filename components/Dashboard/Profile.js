@@ -72,9 +72,9 @@ class reduxProfile extends Component<Props> {
         <View style={styles.container}>
         <View style={styles.headerView}>
         <Image
-        source={require('../../assets/images/topAbstract.png')} 
-            resizeMode={'contain'}
-            style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
         />
             <View style={styles.welcomeBox}>
                 <Text style={styles.hiText}>
@@ -90,7 +90,7 @@ class reduxProfile extends Component<Props> {
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.profileImageView}>
         <Image 
-                source={require('../../assets/images/pp.png')}
+                source={require('../../assets/images/washitLogo.png')}
                 resizeMode={'contain'}
                 style={{flex: 1, alignSelf: 'center' }}
             />
@@ -114,7 +114,7 @@ class reduxProfile extends Component<Props> {
              style={{width: 32, height: 32}}
           />}
           <Text style={this.state.myOrders?styles.optionPressedText:
-          styles.optionUnpressedText}>My  Orders</Text>
+          styles.optionUnpressedText}>My Orders</Text>
          </View></TouchableOpacity>
          <TouchableOpacity onPressIn={()=> this.setState({myCards: true})}
          onPressOut={()=> this.setState({myCards: false})}
@@ -133,7 +133,7 @@ class reduxProfile extends Component<Props> {
              style={{width: 32, height: 32}}
           />}
           <Text style={this.state.myCards?styles.optionPressedText:
-          styles.optionUnpressedText}>My  Cards</Text>
+          styles.optionUnpressedText}>My Cards</Text>
          </View></TouchableOpacity>
         </View>
         {/* <View style={styles.optionParentView}>
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
       headerView: {
           width: '100%',
           height: 100,
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           flexDirection: 'row',
           paddingLeft: 10,
           paddingRight: 10,
@@ -208,13 +208,13 @@ const styles = StyleSheet.create({
           flexDirection: 'column'
       },
       dateText: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           fontSize: 13,
           color: '#fff'
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 26
       },
       profileImageView: {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
           marginBottom: 14
       },
       userName: {
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 16,
           color: '#000',
           alignSelf: 'center',
@@ -255,17 +255,17 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection: 'column',
         justifyContent: 'space-around',
-        backgroundColor: '#1bc47d',
+        backgroundColor: '#769CF1',
         borderRadius: 3
     },
     optionUnpressedText: {
         color: '#000',
-        fontFamily: 'proBold',
+        fontFamily: 'mont-bold',
         fontSize: 11
     },
     optionPressedText: {
         color: '#fff',
-        fontFamily: 'proBold',
+        fontFamily: 'mont-bold',
         fontSize: 11
     }
 });

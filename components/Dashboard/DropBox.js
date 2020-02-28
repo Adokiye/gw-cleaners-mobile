@@ -27,8 +27,8 @@ const stopPropagation = thunk => e => {
     thunk();
   };
   const default_region = {
-    latitude:40.679272,
-    longitude: -73.929061,
+    latitude:6.465422,
+    longitude: 3.406448,
     latitudeDelta: 1,
     longitudeDelta: 1
 };
@@ -59,8 +59,8 @@ region: default_region,
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          'title': 'GW Cleaners Geolocation Permission',
-          'message': 'GW Cleaners needs access to your current location'
+          'title': 'WashIt Geolocation Permission',
+          'message': 'WashIt needs access to your current location'
         }
       );
       if(granted === PermissionsAndroid.RESULTS.GRANTED){
@@ -109,7 +109,6 @@ region: default_region,
         right: 0,
         bottom: 73,
         }} 
-        followsUserLocation={true}
         showsUserLocation={true}
         showsMyLocationButton={true}
         region={{
@@ -122,12 +121,12 @@ region: default_region,
           zoomControlEnabled={true}
            >
             <Marker 
-             coordinate={{"latitude": 40.679272,"longitude":-73.929061}}
+             coordinate={{"latitude": 6.458985,"longitude":3.601521}}
              onPress={()=> this.setState({fulton: true})}
              image={require('../../assets/images/atm.png')}>
              </Marker>
              <Marker 
-             coordinate={{"latitude": 40.679272,"longitude":-73.929061}}>
+             coordinate={{"latitude": 6.458985,"longitude":3.601521}}>
               {this.state.fulton && 
               <View style={styles.modalView}>
                <Image 
@@ -136,7 +135,7 @@ region: default_region,
                    style={{width: 36, height: 36, marginTop: 18}}
                />
                 <Text style={styles.boxId}>#DB000012</Text>
-                <Text style={styles.boxLocation}>Malcom x & Fulton street</Text>
+                <Text style={styles.boxLocation}>Lekki Phase 1</Text>
                 <TouchableOpacity onPress={stopPropagation(this.handleMarkerPress)}>
                 <View style={styles.closeView}>
                     <Text style={styles.closeText}>CLOSE</Text>
@@ -145,12 +144,12 @@ region: default_region,
                </View>}
              </Marker>
              <Marker 
-             coordinate={{"latitude": 40.689626,"longitude":-73.953523}}
+             coordinate={{"latitude":6.4559766,"longitude":3.554504}}
              onPress={()=> this.setState({fulton: true})}
              image={require('../../assets/images/atm.png')}>
              </Marker>
              <Marker 
-             coordinate={{"latitude":40.689626,"longitude":-73.953523}}>
+             coordinate={{"latitude":6.4559766,"longitude":3.554504}}>
               {this.state.fulton && 
               <View style={styles.modalView}>
                <Image 
@@ -159,7 +158,7 @@ region: default_region,
                    style={{width: 36, height: 36, marginTop: 18}}
                />
                 <Text style={styles.boxId}>#DB000012</Text>
-                <Text style={styles.boxLocation}>Bedford Avenue & Nostrand Avenue</Text>
+                <Text style={styles.boxLocation}>Ikota Lekki</Text>
                 <TouchableOpacity onPress={stopPropagation(this.handleMarkerPress)}>
                 <View style={styles.closeView}>
                     <Text style={styles.closeText}>CLOSE</Text>
@@ -170,9 +169,9 @@ region: default_region,
            </MapView> 
         <View style={styles.headerView}>
         <Image
-        source={require('../../assets/images/topAbstract.png')} 
-            resizeMode={'contain'}
-            style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+          source={require("../assets/images/washitBack.png")}
+          resizeMode="cover"
+          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
         />
             <View style={styles.welcomeBox}>
                 <Text style={styles.hiText}>
@@ -206,7 +205,7 @@ const styles = StyleSheet.create({
       headerView: {
           width: '100%',
           height: 100,
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           flexDirection: 'row',
           paddingLeft: 10,
           paddingRight: 10,
@@ -219,13 +218,13 @@ const styles = StyleSheet.create({
           flexDirection: 'column'
       },
       dateText: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           fontSize: 13,
           color: '#fff'
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 26
       },
       modalView: {
@@ -238,12 +237,12 @@ const styles = StyleSheet.create({
       },
       boxId: {
           color: '#000',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 13
       },
       boxLocation: {
         color: '#000',
-        fontFamily: 'proBold',
+        fontFamily: 'mont-bold',
         fontSize: 13,
         marginTop: 14,
         width: 158,
@@ -254,7 +253,7 @@ const styles = StyleSheet.create({
         height: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#1bc47d',
+        backgroundColor: '#769CF1',
         borderRadius: 2,
         marginTop: 13,
         zIndex : 1
@@ -262,6 +261,6 @@ const styles = StyleSheet.create({
     closeText: {
         color: '#fff',
         fontSize: 14,
-        fontFamily: 'proRegular'
+        fontFamily: 'mont-reg'
     }
 });

@@ -175,7 +175,7 @@ class App extends Component<Props> {
           .android.setChannelId("default")
           .android.setPriority(firebase.notifications.Android.Priority.High)
           .android.setSmallIcon("@drawable/ic_stat_gw_cleaners_new")
-          .android.setColor('#1bc47d');
+          .android.setColor('#769CF1');
         firebase
           .notifications()
           .displayNotification(localNotification)

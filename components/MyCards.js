@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   headerView: {
     width: "100%",
     height: 100,
-    backgroundColor: "#1bc47d",
+    backgroundColor: "#769CF1",
     flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 10,
@@ -305,13 +305,13 @@ const styles = StyleSheet.create({
     marginLeft: 13
   },
   dateText: {
-    fontFamily: "proRegular",
+    fontFamily: "mont-reg",
     fontSize: 13,
     color: "#fff"
   },
   hiText: {
     color: "#fff",
-    fontFamily: "proBold",
+    fontFamily: "mont-bold",
     fontSize: 26
   },
   cardView: {
@@ -336,10 +336,10 @@ const styles = StyleSheet.create({
   cardLastDigits: {
     color: "#000",
     fontSize: 12,
-    fontFamily: "proBold"
+    fontFamily: "mont-bold"
   },
   dateText: {
-    fontFamily: "proRegular",
+    fontFamily: "mont-reg",
     fontSize: 10,
     color: "#000"
   }

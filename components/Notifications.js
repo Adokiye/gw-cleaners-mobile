@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   headerView: {
     width: "100%",
     height: 100,
-    backgroundColor: "#1bc47d",
+    backgroundColor: "#769CF1",
     flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 10,
@@ -164,13 +164,13 @@ const styles = StyleSheet.create({
     marginLeft: 13
   },
   dateText: {
-    fontFamily: "proRegular",
+    fontFamily: "mont-reg",
     fontSize: 13,
     color: "#fff"
   },
   hiText: {
     color: "#fff",
-    fontFamily: "proBold",
+    fontFamily: "mont-bold",
     fontSize: 26
   },
   notificationBox: {
@@ -191,12 +191,12 @@ const styles = StyleSheet.create({
     width: "79.114%",
     textAlign: "center",
     color: "#000",
-    fontFamily: "proRegular",
+    fontFamily: "mont-reg",
     fontSize: 12
   },
   timeText: {
     color: "#AFACAC",
     fontSize: 7,
-    fontFamily: "proBold"
+    fontFamily: "mont-bold"
   }
 });

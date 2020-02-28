@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   headerView: {
     width: "100%",
     height: 100,
-    backgroundColor: "#1bc47d",
+    backgroundColor: "#769CF1",
     flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 10,
@@ -276,13 +276,13 @@ const styles = StyleSheet.create({
     marginLeft: 13
   },
   dateText: {
-    fontFamily: "proRegular",
+    fontFamily: "mont-reg",
     fontSize: 13,
     color: "#fff"
   },
   hiText: {
     color: "#fff",
-    fontFamily: "proBold",
+    fontFamily: "mont-bold",
     fontSize: 26
   },
   clothTypeView: {
@@ -294,14 +294,14 @@ const styles = StyleSheet.create({
   },
   clothTypeText: {
     color: "#000",
-    fontFamily: "proSemi",
+    fontFamily: "mont-semi",
     fontSize: 16,
     marginTop: 10
     //  marginLeft: 15
   },
   clothTypeInsideText: {
     color: "#000",
-    fontFamily: "proExtraBold",
+    fontFamily: "mont-extraBold",
     fontSize: 15,
     width: '95%',
     alignSelf: 'center',
@@ -325,13 +325,13 @@ const styles = StyleSheet.create({
     borderRadius: 19.67,
     alignSelf: "center",
     // marginTop: 10,
-    backgroundColor: "#1bc47d",
+    backgroundColor: "#769CF1",
     marginBottom: 10
   },
   placeText: {
     color: "#fff",
     fontSize: 15,
-    fontFamily: "proBold"
+    fontFamily: "mont-bold"
   },
   iplaceOrderView: {
     width: 140,
@@ -344,12 +344,12 @@ const styles = StyleSheet.create({
     //  marginTop: 10,
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#1bc47d'
+    borderColor: '#769CF1'
     // marginBottom: 10,
   },
   iplaceText: {
-    color: "#1bc47d",
+    color: "#769CF1",
     fontSize: 15,
-    fontFamily: "proBold"
+    fontFamily: "mont-bold"
   }
 });

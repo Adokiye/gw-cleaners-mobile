@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
       headerView: {
           width: '100%',
           height: 100,
-          backgroundColor: '#1bc47d',
+          backgroundColor: '#769CF1',
           flexDirection: 'row',
           paddingLeft: 10,
           paddingRight: 10,
@@ -180,13 +180,13 @@ const styles = StyleSheet.create({
           marginLeft: 13
       },
       dateText: {
-          fontFamily: 'proRegular',
+          fontFamily: 'mont-reg',
           fontSize: 13,
           color: '#fff'
       },
       hiText: {
           color: '#fff',
-          fontFamily: 'proBold',
+          fontFamily: 'mont-bold',
           fontSize: 26
       },
       orderView: {
@@ -204,17 +204,17 @@ const styles = StyleSheet.create({
         marginBottom: 30
       },
       orderDetailsHeader: {
-        fontFamily: 'proBold',
+        fontFamily: 'mont-bold',
         color: '#000',
         fontSize: 17
       },
       orderDetailsSubText: {
         color: '#000',
-        fontFamily: 'proRegular',
+        fontFamily: 'mont-reg',
         fontSize: 13, 
       },
       inProcessTime: {
-        fontFamily: 'proBoldItalic',
+        fontFamily: 'mont-boldItalic',
         fontSize: 10,
         color: '#000',
         marginTop: 5
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
         right: 40
       },
       statusText: {
-        fontFamily: 'proItalic',
+        fontFamily: 'mont-italic',
         fontSize: 10,
         color: '#000'
       },
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
         width: 11,
         height: 11, 
         borderRadius: 11/2,
-        backgroundColor: '#1bc47d',
+        backgroundColor: '#769CF1',
         marginRight: 5
       },
       inProcessCircle: {
@@ -260,6 +260,6 @@ const styles = StyleSheet.create({
       insideMeterView: {
         width: '80%',
         height: 2, 
-        backgroundColor: '#1bc47d'
+        backgroundColor: '#769CF1'
       }
 });

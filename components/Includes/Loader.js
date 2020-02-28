@@ -46,8 +46,8 @@ export default class Loader extends Component {
       />
       <View style={{width: 120, height: 50, borderRadius: 10, flexDirection: 'row',
       backgroundColor: '#fff', justifyContent: 'space-around', alignItems: 'center', alignSelf: 'center'}}>
-       <ActivityIndicator color='#377848' size='large'/>
-        <Text style={{fontFamily: 'proRegular', fontSize: 15, color: 'black'}}>
+       <ActivityIndicator color='#769CF1' size='large'/>
+        <Text style={{fontFamily: 'mont-reg', fontSize: 15, color: 'black'}}>
          Loading
          </Text>
       </View>
