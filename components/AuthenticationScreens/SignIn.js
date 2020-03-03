@@ -205,7 +205,7 @@ class reduxSignIn extends Component<Props> {
        </View>
        <TouchableOpacity onPress={()=> this.props.navigation.navigate('CreateAccount')}>
        <Text style={{width: '88%', alignSelf: 'center', textAlign: 'center', color: '#769CF1',
-       fontSize: 10, marginTop: 10, marginBottom: 10, fontFamily: 'mont-reg'}}>
+       fontSize: 14, marginTop: 10, marginBottom: 10, fontFamily: 'mont-reg'}}>
          Don't Have an Account?, Sign Up
        </Text></TouchableOpacity>
        <TouchableOpacity onPress={this.signIn.bind(this)}>
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
         fontFamily: 'mont-semi',
         alignSelf: 'center',
         fontSize: 21,
-        color: '#000',
+        color: '#769CF1',
         marginTop: 20
     },
     fullNameView: {
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
         width: '88%',
         height: 50,
        // borderRadius: 3,
-        borderBottomColor: '#fefefe',
+        borderBottomColor: '#c4c4c4',
         borderBottomWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
       width: '45%',
       height: 50,
      // borderRadius: 3,
-      borderBottomColor: '#fefefe',
+      borderBottomColor: '#c4c4c4',
       borderBottomWidth: 1,
       alignItems: 'center',
       justifyContent: 'center',
@@ -342,7 +342,7 @@ numberFieldView: {
     width: '60%',
     height: 50,
     borderRadius: 3,
-    borderBottomColor: '#fefefe',
+    borderBottomColor: '#c4c4c4',
     borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -355,7 +355,7 @@ textFieldInput: {
     justifyContent: 'center',
     color: '#000',
     fontSize: 16,
-     fontFamily: "mont-semi",
+     fontFamily: "mont-medium",
      paddingLeft: -1
  },
  continueView:{

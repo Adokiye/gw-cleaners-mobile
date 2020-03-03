@@ -161,27 +161,22 @@ class reduxDashboard extends Component<Props> {
     </View>
       }else{
        show = <View style={styles.insideGreenBox}>
-               <View style={{
-        width: '100%',
-        height: '100%',
-        position: 'absolute'      }}>
-              <Image
-          source={require("../../assets/images/washitSplashBack.png")}
-          resizeMode="cover"
-          style={{flex: 1}}
-        />
-      </View>
+               
         <Text style={styles.noOrders}>Create your first order with Washit!</Text>
-
+        <Image 
+        source={require('../../assets/images/machineIconQ.jpg')}
+        resizeMode={'contain'}
+        style={{width: 270, height: 243}}
+    />
     </View>
       }
     return (
         <View style={styles.container}>
         <View style={styles.headerView}>
               <Image
-          source={require("../../assets/images/washitBack.png")}
+          source={require("../../assets/images/washitSplashBack.png")}
           resizeMode="cover"
-          style={{position: 'absolute', width: 187, height: 50, top: 0, right: 0}}
+          style={{position: 'absolute', width: '100%', height: '100%', top: 0, right: 0}}
         />
             <View style={styles.welcomeBox}>
                 <Text style={styles.hiText}>
@@ -259,7 +254,7 @@ const styles = StyleSheet.create({
           marginTop: '5%',
           paddingTop: 30,
           flexDirection: 'column',
-          backgroundColor: '#769CF1'
+          backgroundColor: '#fff'
       },
       insideGreenBoxTwo: {
         width: Width*(77.867/100),
@@ -297,7 +292,7 @@ const styles = StyleSheet.create({
       noOrders: {
           width: 215,
           textAlign: 'center',
-          color: '#fff',
+          color: '#769CF1',
           fontSize: 20,
           fontFamily: 'mont-semi'
       },
@@ -314,7 +309,7 @@ const styles = StyleSheet.create({
       },
       placeText: {
           color: '#fff',
-          fontSize: 14,
+          fontSize: 16,
           fontFamily: 'mont-semi'
       },
 
