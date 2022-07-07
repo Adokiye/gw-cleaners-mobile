@@ -10,7 +10,7 @@
     "@react-native-community/async-storage": "^1.7.1",
     "@react-native-community/geolocation": "^2.0.2",
     "babel-preset-react-native": "^4.0.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react": "16.8.6",
     "react-native": "0.60.4",
     "react-native-android-location-services-dialog-box": "^2.8.2",
